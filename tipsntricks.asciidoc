@@ -49,3 +49,19 @@ Execution:
  hello world
 -------------------------------------------------------------------------------------
 
+=== sbt: Simple Build Tool
+
+http://www.scala-sbt.org/release/docs/Getting-Started/Setup.html[Setup SBT]
+
+-----------------------------------------------------------------------------------
+sbt "show compile:dependency-classpath"
+sbt "show compile:dependency-classpath" | grep -B1 'success' | head -1 > output.txt
+-----------------------------------------------------------------------------------
+
+http://stackoverflow.com/questions/23296064/sbt-print-dependency-classpath-for-use-in-an-environment-variable/23296445[Sbt print dependency classpath for use in an environment variable]
+
+------------------------------------------
+sbt "export  compile:dependency-classpath"
+sbt "export  compile:full-classpath"
+------------------------------------------
+

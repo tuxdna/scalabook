@@ -13,7 +13,7 @@ Where to learn more Scala
 
 === References
 
-* http://manning.com/bjarnason/FPiS_meap_ch01.pdf[Introduction to Function Programming]
+* http://manning.com/bjarnason/FPiS_meap_ch01.pdf[Introduction to Functional Programming]
 * https://en.wikipedia.org/wiki/Functional_programming[Functional Programming] Wikipedia Article
 * http://www.codeproject.com/Articles/375166/Functional-programming-in-Csharp[Functional programming in C#]
 * link:www.scala-lang.org[Scala Lang site]

@@ -2,24 +2,28 @@
 
 **Reactive Programming in Scala**
 
-Four Effects:
+Four Effects on operations:
 
-Synchronous(one): `T`/`Try[T]`
+**Synchronous**
 
-Synchronous(many): `Iterable[T]`
+ * one: `T`/`Try[T]`
+ * many: `Iterable[T]`
 
-Asynchronous(one): `Future[T]`
+**Asynchronous**
 
-Asynchronous(many): `Observable[T]`
+ * one: `Future[T]`
+ * many: `Observable[T]`
 
-Things to remember
+=== Try
+
+**What does a Try do?**
 
 `Try[T]`: Handle happy path as well as sad path
 
-* `Success[T]` - happy path
-* `Failure(Throable)`: sad path
+ * `Success[T]` - happy path
+ * `Failure(Throable)`: sad path
 
-Higher order functions on `Try[T]`:
+**Higher order functions on `Try[T]`**
 
 --------------------------------------------------------------
 def flatMap[S](f: T=>Try[S]): Try[S]
@@ -29,13 +33,21 @@ def filter(p: T=>Boolean): Try[T]
 def recoverWith(f: PartialFunction[Throwable, Try[T]]): Try[T]
 --------------------------------------------------------------
 
-`Future[T]`: Possibly asynchronous execution
+=== Future
+
+`Future[T]`:
+
+It represents a possibly asynchronous execution
+
+=== Promise
 
 `Promise[T]`
 
-Partial examples of: `Future { block }`, `onComplete`, `recover`,
-`recoverWith`, `fallbackTo`, `async`, `await`
+=== Some examples
 
+Partial examples of: `Future { block }`, `onComplete`, `recover`, `recoverWith`, `fallbackTo`, `async`, `await`
+
+[source,scala]
 -----------------------------------------------------------------------------------
 val f1 = Future { block1; 0 }
 val f2 = Future { block2; 1 }

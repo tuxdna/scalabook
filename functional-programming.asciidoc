@@ -133,6 +133,7 @@ Hallmarks of Functional Programming
 === MapReduce
 
 map -> shuffle -> reduce
+
 image::images/mapreduce_mapshuffle.png[map-shuffle-reduce]
 
 [source,scala]
