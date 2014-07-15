@@ -30,6 +30,3 @@ include::closing.asciidoc[]
 
 include::resources.asciidoc[]
 
-include::scala.asciidoc[]
-
-include::scala-intro.asciidoc[]
