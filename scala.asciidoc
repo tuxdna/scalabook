@@ -1,0 +1,826 @@
+
+[[introduction-to-scala]]
+== Introduction to Scala
+
+=== What is Scala?
+
+What is Scala?
+
+The name Scala stands for _"scalable language"_. The language is so
+named because it was designed to grow with the demands of its users.
+
+[[what-makes-scala-a-scalable-language]]
+What makes Scala a _Scalable Language_ ?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Statically typed language with OOP + FP both.
+
+* Fast, expressive, and pleasant to use.
+* Excellent type inference.
+* Runs on JVM.
+
+Whats more?
+
+ * Scala is compatible with Java
+ * Scala is concise
+ * Scala is high level
+ * Scala is statically typed ( vs dynamically typed )
+
+
+[[does-scala-make-you-a-better-java-programmer]]
+Does Scala make you a better Java programmer?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Scala provides very concise Functional Programming constructs, that make your code look beautiful. At the same time it is fun to write and takes much less time than Java.
+
+Scala teaches you to think of functions as pure-functions and higher-objects. This means that functions are treated same as other variables and values, and also that functions have no side-effects. With these concepts in mind, any Java programmer can improve upon existing systems at various levels.
+
+[[what-can-you-do-with-scala-today]]
+What can you do with Scala today?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* Write web applications: http://www.playframework.com/[Play] and http://liftweb.net/[Lift] web frameworks
+* Write code that scales to huge amounts of data: http://spark-project.org/[Spark Project] and https://github.com/twitter/scalding[Scalding]
+* Process huge number of concurrent tasks: http://akka.io/[Akka]
+* Natural Language Processing and Machine Learning: http://www.scalanlp.org/[ScalaNLP] and Apache Mahout
+* And anything you could do in Java, now more concisely :-)
+
+=== Scala Setup
+
+
+What do you need to write programs in Scala?
+
+ * JDK 6+
+ * Scala Compiler
+ * Text Editor ( or an IDE )
+ * Command Line Shell ( such as `bash` on Linux)
+
+[[setting-up-scala]]
+Setting up Scala
+^^^^^^^^^^^^^^^^
+
+Install the Scala Complier
+
+-----------------
+yum install scala
+-----------------
+
+Install your favourite Editor / IDE
+
+-----------------
+yum install emacs
+-----------------
+
+OR install Eclipse ( ScalaIDE )
+
+Scala compiler is
+
+ * `scalac` ( just like javac command )
+ * `scala` (just like java command )
+ * `fsc` ( fast scala compiler )
+
+[[scala-repl]]
+Scala REPL
+~~~~~~~~~~
+
+Function
+
+---------------------------------------------------------------------------
+scala> def fact(n: Int) = (1 to n).foldLeft(0)( (a,b) => a * b)
+fact: (n: Int)Int
+
+scala> val factorial = fact(_)
+factorial: Int => Int = <function1>
+
+scala> val f1 = (n: Int) =>  (1 to n).foldLeft(0)( (a,b) => a * b) 
+f1: Int => Int = <function1>
+
+scala> factorial
+res2: Int => Int = <function1>
+
+scala> val f2 = (n: Int, m: Int) =>  (m to n).foldLeft(0)( (a,b) => a * b) 
+f2: (Int, Int) => Int = <function2>
+---------------------------------------------------------------------------
+
+Map
+
+----------------------------------------------------------------------------------------------
+scala> (1 to 10) map { _ * 2 }
+res61: scala.collection.immutable.IndexedSeq[Int] = Vector(2, 4, 6, 8, 10, 12, 14, 16, 18, 20)
+----------------------------------------------------------------------------------------------
+
+Reduce
+
+------------------------------------
+scala> (1 to 10) reduceLeft{ _ + _ }
+res63: Int = 55
+------------------------------------
+
+Fold
+
+------------------------------------
+scala> (1 to 10).foldLeft(0)(_ + _)
+res68: Int = 55
+
+scala> (1 to 10).foldLeft(1)(_ * _)
+res69: Int = 3628800
+
+scala> (1 to 10).foldRight(1)(_ * _)
+res70: Int = 3628800
+------------------------------------
+
+Factorial
+
+------------------------------------------------------
+scala> def fact(n: Int) = (1 to n).foldRight(1)(_ * _)
+fact: (n: Int)Int
+
+scala> fact(10)
+res71: Int = 3628800
+
+scala> fact(3)
+res72: Int = 6
+
+scala> fact(20)
+res73: Int = -2102132736
+------------------------------------------------------
+
+Sum
+
+-----------------------------------------------------------------------------------
+scala> (1 to 10).sum
+res74: Int = 55
+
+scala> val wordList = List("scala", "akka", "play framework", "sbt", "typesafe")
+wordList: List[java.lang.String] = List(scala, akka, play framework, sbt, typesafe)
+
+scala> val tweet = "This is an example tweet talking about scala and sbt."
+tweet: java.lang.String = This is an example tweet talking about scala and sbt.
+
+scala> (wordList.foldLeft(false)( _ || tweet.contains(_) ))
+res75: Boolean = true
+
+scala> wordList.exists(tweet.contains)
+res76: Boolean = true
+-----------------------------------------------------------------------------------
+
+File IO
+
+-----------------------------------------------------------------------------------------------------
+scala> val fileText = io.Source.fromFile("/proc/cpuinfo").mkString
+fileText: String = 
+"processor  : 0
+vendor_id   : GenuineIntel
+..."
+
+scala> val fileText = io.Source.fromFile("/proc/cpuinfo").getLines.toList
+fileText: List[String] = List(processor : 0, vendor_id  : GenuineIntel, cpu family  : 6, model      : 42, model name    : Intel(R) Core(TM) i5-2400 CPU @ 3.10GHz, stepping : 7, microcode  : 0x1b, cpu MHz     : 3101.000, cache size  : 6144 KB, physical id  : 0, siblings   : 4, core id        : 0, cpu cores  : 4, apicid     : 0, initial apicid : 0, fpu        : yes, fpu_exception    : yes, cpuid level  : 13, wp        : yes, flags        : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx lahf_lm ida arat epb xsaveopt pln pts dthe...
+-----------------------------------------------------------------------------------------------------
+
+`if` expression
+
+-----------------------------------------------------------------------------------------------------
+scala> (1 to 4).map { i => "Happy Birthday " + (if (i == 3) "dear UNIX" else "to You") }.foreach { println }
+Happy Birthday to You
+Happy Birthday to You
+Happy Birthday dear UNIX
+Happy Birthday to You
+-----------------------------------------------------------------------------------------------------
+
+List partition
+
+-------------------------------------------------------------------------------
+scala> val (passed, failed) = List(49, 58, 76, 82, 88, 90) partition ( _ > 60 )
+passed: List[Int] = List(76, 82, 88, 90)
+failed: List[Int] = List(49, 58)
+-------------------------------------------------------------------------------
+
+XML
+
+-----------------------------------------------------------------------------------------------------
+scala> val results = xml.XML.load("https://github.com/blog.atom")
+results: scala.xml.Elem = 
+<feed xml:lang="en-US" xmlns:media="http://search.yahoo.com/mrss/" xmlns="http://www.w3.org/2005/Atom">
+  <id>tag:github.com,2008:/blog</id>
+  <link href="https://github.com/blog" type="text/html" rel="alternate"></link>
+  <link href="https://github.com/blog.atom" type="application/atom+xml" rel="self"></link>
+  <title>The GitHub Blog</title>
+  <updated>2013-05-31T14:32:29-07:00</updated>
+  <entry>
+    <id>tag:github.com,2008:Post/1518</id>
+    <published>2013-05-31T14:32:29-07:00</published>
+    <updated>2013-05-31T14:32:29-07:00</updated>
+    <link href="https://github.com/blog/1518-drinkup-in-atlanta" type="text/html" rel="alternate"></link>
+    <title>Drinkup in Atlanta</title>
+    <content type="html">&lt;p&gt;&lt;a href=&quot;https://github.com/wfarr&quo...
+-----------------------------------------------------------------------------------------------------
+
+Min-Max
+
+------------------------------------------------------
+scala> List(14, 35, -7, 46, 98).reduceLeft ( _ min _ )
+res79: Int = -7
+
+scala> List(14, 35, -7, 46, 98).reduceLeft ( _ max _ )
+res80: Int = 98
+
+scala> List(14, 35, -7, 46, 98).min
+res81: Int = -7
+
+scala> List(14, 35, -7, 46, 98).max
+res82: Int = 98
+------------------------------------------------------
+
+[[absolute-scala-basics]]
+Absolute Scala basics
+~~~~~~~~~~~~~~~~~~~~~
+
+[[hello-scala-world]]
+Hello Scala World
+^^^^^^^^^^^^^^^^^
+
+-----------------------------------
+object HelloWorld {
+  def main(args: Array[String]) = {
+    println("Hello Scala World!")
+  }
+}
+-----------------------------------
+
+[[compile-and-run-hello-scala-world]]
+Compile and run Hello Scala World
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+-------------------------
+$ scalac helloworld.scala
+$ ls
+helloworld.scala
+HelloWorld.class
+HelloWorld$.class
+$ scala HelloWorld
+Hello Scala World!
+-------------------------
+
+[[values-and-variables]]
+Values and Variables
+^^^^^^^^^^^^^^^^^^^^
+
+[[an-example-in-ruby-or-maybe-python-a-dynamically-typed-language]]
+An example in Ruby ( or maybe Python ) a dynamically typed language
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+-------------------------------------
+counter = Counter.new
+counter = AtomicCounter.new
+counter = File.new # this works here!
+-------------------------------------
+
+[[scalas-static-type-system-avoids-runtime-overhead-of-dynamic-types.-the-method-dispatch-is-fast-in-a-statically-typed-language.]]
+Scala's static type system, avoids runtime overhead of dynamic types.
+The method dispatch is fast in a statically typed language.
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+---------------------------------------------------------
+var counter = new Counter()
+counter = new AtomicCounter() // this has to be a Counter
+counter = new File() // this doesn't work in Scala
+---------------------------------------------------------
+
+[[data-types]]
+Data Types
+^^^^^^^^^^
+
+[[almost-everything-is-same-as-java]]
+Almost everything is same as Java
++++++++++++++++++++++++++++++++++
+
+Basic Data Types: ( all integers are signed two's complement ) *
+Integers: _Byte_ (8bit), _Short_ (16bit), _Int_ (32bit), _Long_ (64bit)
+* _Char_ (16 bit unicode character), _String_ (squence of Chars) *
+Reals: _Float_ (32bit), _Double_ (64bit) * _Boolean_: true / false
+
+Literals * Basic data types: `1`, `0.123`, `12L`, `'a'`, `"String"` *
+Symbol literal: `'identifier`
+
+[[more-concepts]]
+More Concepts
+^^^^^^^^^^^^^
+
+Data Containers * Array * List * Set * Map * Tuple
+
+Programming Abstraction Tools * Class * Object * Scala App * Package
+
+[[expressions]]
+Expressions
+^^^^^^^^^^^
+
+Every thing is an expression * Basic expression: 1+2 * An assignment is
+an expression * A function is an expression
+
+[[control-constructs]]
+Control Constructs
+^^^^^^^^^^^^^^^^^^
+
+Control Constructs in Scala * if-else * while * do-while * for *
+match-case * try-catch-finally
+
+[[functional-paradigm-in-scala]]
+Functional Paradigm in Scala
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[[matematical-logic]]
+Matematical Logic
+^^^^^^^^^^^^^^^^^
+
+http://en.wikipedia.org/wiki/Lambda_calculus[Lambda Calculus]
+
+[[factorial-function]]
+Factorial Function
+~~~~~~~~~~~~~~~~~~
+
+http://en.wikipedia.org/wiki/Factorial[Factorial] expressed as
+mathematical logic
+
+[[fp-is-guided-by-two-main-ideas]]
+FP is guided by two main ideas:
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Functions are _fist-class values_
+
+Functions have _no side effects_ i.e. they can be replaced with their
+values
+
+[[hallmarks-of-functional-programming]]
+Hallmarks of Functional Programming
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+* mapping
+* filtering
+* folding
+* reducing
+
+[[object-oriented-programming-in-scala]]
+Object Oriented Programming in Scala
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[[object-oriented]]
+Object Oriented
+^^^^^^^^^^^^^^^
+
+* Decompose the problem into entities and interactions among entities
+* Each entity and their interaction is represented using class/object
+* internal state is the member variables
+* interactions are the member functions
+
+[[functions]]
+Functions
+^^^^^^^^^
+
+----------------------------------
+def factorial(n:Int): Int =
+  if(n<=0) 1 else n*factorial(n-1)
+----------------------------------
+
+[[placeholder-syntax]]
+Placeholder syntax
+++++++++++++++++++
+
+[[partially-applied-functions]]
+Partially applied functions
++++++++++++++++++++++++++++
+
+[[closures]]
+Closures
+++++++++
+
+[[traits]]
+Traits
+^^^^^^
+
+---------------------
+trait PartTime {
+  // trait definition
+}
+---------------------
+
+[[classes]]
+Classes
+^^^^^^^
+
+---------------------------------------------
+class Employee(name: String, age: Int) {
+  override def toString = name + ", " + age
+}
+class Supervisor(name: String, age: Int
+  ) extends Employee(name, age) with PartTime
+  {
+  override def toString = name + ", " + age
+}
+---------------------------------------------
+
+When a class doesn't extend anyother class, scala.AnyRef class is
+implicitly used as the parent class.
+
+[[objects]]
+Objects
+^^^^^^^
+
+-------------------------------------------
+object Employee {
+  override def toString = name + ", " + age
+}
+-------------------------------------------
+
+[[packages]]
+Packages
+^^^^^^^^
+
+Example: `pacakge-example.scala`
+
+-------------------------------------------
+package in.tuxdna.scala
+class Employee(name: String, age: Int) {
+  override def toString = name + ", " + age
+}
+
+object Main extends App {
+  val emp1 = new Employee("Tom", 21)
+  println("Employee 1: "+emp1)
+}
+-------------------------------------------
+
+Output:
+
+------------------------------
+$ scalac pacakge-example.scala
+Employee 1: Tom, 21
+------------------------------
+
+[[features-to-be-convered-later]]
+Features to be covered later
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+There is more to Scala
+
+ * XML Processing
+ * Actors
+ * Case Classes
+ * Properties
+ * Extistential Types
+ * Implicits
+ * Lazy Evaluation
+ * Parser Combinations
+ * Monads - https://www.youtube.com/watch?v=Mw_Jnn_Y5iA[Scala Monads: Declutter Your Code With Monadic Design]
+ * Annotations
+
+[[case-classes]]
+Case Classes
+++++++++++++
+
+How does a `class` differ from a `case class`?
+
+ * new keyword is not mamdatory to create instances of case classes
+ * constructor parameters get getter functions by default * `equals` and `hashCode` have a default
+implementation based on instance structure; also for `toString`
+ * can be used in pattern matching construct to capture values
+ * Generics
+
+[[using-scala-as-a-scripting-language]]
+Using Scala as a scripting language
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Example: `employee.scala`
+
+-------------------------------------------
+class Employee(name: String, age: Int) {
+  override def toString = name + ", " + age
+}
+-------------------------------------------
+
+
+----------------------------------
+val emp1 = new Employee("Tom", 21)
+println("Employee 1: "+emp1)
+----------------------------------
+
+Ouptput:
+
+----------------------
+$ scala employee.scala
+Employee 1: Tom, 21
+----------------------
+
+[[tips-and-tricks]]
+Tips and Tricks
+~~~~~~~~~~~~~~~
+
+Executing a Scala Script as a shell script
+
+First way ( script01.scala ) -- replace shell with scala interpreter
+
+----------------------
+#!/bin/sh
+exec scala "$0" "$@"
+!#
+println("hello world")
+----------------------
+
+Execution:
+
+--------------------------
+ $ sh ./script01.scala
+ hello world
+ $ chmod +x script01.scala
+ $ ./script01.scala
+ hello world
+--------------------------
+
+Second way ( script02.scala ) -- use env command to invoke scala
+interpreter
+
+----------------------
+#!/usr/bin/env scala
+!#
+println("hello world")
+----------------------
+
+Execution:
+
+-------------------------------------------------------------------------------------
+ $ sh ./script02.scala
+ ./script02.scala: 2: ./script02.scala: !#: not found
+ ./script02.scala: 3: ./script02.scala: Syntax error: word unexpected (expecting ")")
+ $ chmod +x script02.scala
+ $ ./script02.scala
+ hello world
+-------------------------------------------------------------------------------------
+
+[[more-notes-tbd]]
+More Notes TBD
+~~~~~~~~~~~~~~
+
+* Functional Programming
+* Equational Reasoning: replace function with its value
+* Functional Language: functions are fist class falues, encourages
+immutability
+* Every statement has a return value ( and a type ) - `val a = 10`
+* Compound expression has a return type as well
+* Type inference
+* Classes and Objects
+* Class Inheritance
+* Default constructor
+* Predef object
+* Case classes
+* Functional Objects - those objects that do not have mutable state
+* File processing
+
+[[reactive-programming]]
+Reactive Programming
+~~~~~~~~~~~~~~~~~~~~
+
+Four Effects:
+
+Synchronous(one): `T`/`Try[T]`
+
+Synchronous(many): `Iterable[T]`
+
+Asynchronous(one): `Future[T]`
+
+Asynchronous(many): `Observable[T]`
+
+Things to remember
+
+`Try[T]`: Handle happy path as well as sad path
+
+* `Success[T]` - happy path
+* `Failure(Throable)`: sad path
+
+Higher order functions on `Try[T]`:
+
+--------------------------------------------------------------
+def flatMap[S](f: T=>Try[S]): Try[S]
+def flatten[U <: Try[T]]: Try[U]
+def map[S](f: T=>S): Try[T]
+def filter(p: T=>Boolean): Try[T]
+def recoverWith(f: PartialFunction[Throwable, Try[T]]): Try[T]
+--------------------------------------------------------------
+
+`Future[T]`: Possibly asynchronous execution
+
+`Promise[T]`
+
+Partial examples of: `Future { block }`, `onComplete`, `recover`,
+`recoverWith`, `fallbackTo`, `async`, `await`
+
+-----------------------------------------------------------------------------------
+val f1 = Future { block1; 0 }
+val f2 = Future { block2; 1 }
+f1 recover { case x: Throwable => 2 }
+f1 recoverWith { case x: Throwable => 3 }
+f1 onComplete {
+  case Success(x) => x
+  case Failure(t) => println("caused by :"+t)
+}
+f2 onSuccess { v =>
+  println("Success with: "+v)
+}
+f2 onFailure { t =>
+  println("caused by: "+t)
+}
+val op1 = Future { operation1 }
+// val op2 = Future { nextOperation(x) }
+op1.flatMap( x => Future { nextOperation(x) } )
+
+val f3 = op1 fallbackTo {
+  async {
+    await { nextOperation(x) }
+  }
+} recover {
+  case e: Op1Error => println("op1 failed because: "+e)
+}
+
+val res = Await.result(f3, 5 seconds) // wait for at most 5 seconds for computation
+-----------------------------------------------------------------------------------
+
+[[scala-caveats]]
+Scala caveats
+~~~~~~~~~~~~~
+
+* Scala Development tools are not so great yet.
+* Compilation is relatively slow
+
+[[sbt-simple-build-tool]]
+sbt: Simple Build Tool
+~~~~~~~~~~~~~~~~~~~~~~
+
+http://www.scala-sbt.org/release/docs/Getting-Started/Setup.html[Setup
+SBT]
+
+-----------------------------------------------------------------------------------
+sbt "show compile:dependency-classpath"
+sbt "show compile:dependency-classpath" | grep -B1 'success' | head -1 > output.txt
+-----------------------------------------------------------------------------------
+
+http://stackoverflow.com/questions/23296064/sbt-print-dependency-classpath-for-use-in-an-environment-variable/23296445[Sbt
+print dependency classpath for use in an environment variable]
+
+------------------------------------------
+sbt "export  compile:dependency-classpath"
+sbt "export  compile:full-classpath"
+------------------------------------------
+
+[[tips-n-tricks]]
+Tips n Tricks
+~~~~~~~~~~~~~
+
+Convert Java collections to Scala collections automatically
+
+-----------------------------------------
+import scala.collection.JavaConversions._
+-----------------------------------------
+
+[[where-to-learn-more-scala]]
+Where to learn more Scala
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[[books]]
+Books
+^^^^^
+
+* http://blog.typesafe.com/free-pdf-from-typesafe-scala-for-the-impatien-64715[Scala for the Impatient] (free)
+* http://ofps.oreilly.com/titles/9780596155957[Programming Scala] (free)
+* http://www.amazon.com/Programming-Scala-Comprehensive-Step-Step/dp/0981531644[Programming in Scala 2nd Ed.]
+* https://www.coursera.org/course/progfun[_Functional Programming Principles in Scala_] ( free online course )
+* http://www.scala-lang.org/node/198[Getting Started with Scala]
+
+[[blogs]]
+Blogs
+^^^^^
+
+[[forums]]
+Forums
+^^^^^^
+
+[[scala-puzzles-and-problems]]
+Scala puzzles and problems
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Some pointers to interesting Scala questions:
+
+* http://scalapuzzlers.com/[Scala Puzzlers]
+* http://aperiodic.net/phil/scala/s-99/[Scala 99] problems
+* https://programmers.stackexchange.com/questions/58145/how-scala-developers-are-being-interviewed[How Scala Developers Are Being Interviewed]
+* Solve a problem using fold
+* Solve a problem using groupBy
+* Write some method for a List of Ints, have them genericize it to a Seq of arbitrary type.
+* Category Theory: How to define monad by natural transformation?
+* Name the default subclass in the Scala type hierarchy?
+
+Given you have a class C. What is `x == y` after `val x,y = new C` ?
+What is `j == k` after `val j@k = new C` ?
+
+----------------------
+scala> class C
+defined class C
+
+scala> val x,y = new C
+x: C = C@3e0f950
+y: C = C@270ff52d
+
+scala> val j@k = new C
+j: C = C@57797bd3
+k: C = C@57797bd3
+
+scala> x == y
+res0: Boolean = false
+
+scala> j == k
+res1: Boolean = true
+----------------------
+
+What are the results of the following?
+
+--------------------------------------
+val IJ = (3, 4)
+val (i,j) = IJ
+val (I,J): IJ.type = IJ
+
+
+scala> val IJ = (3, 4)
+IJ: (Int, Int) = (3,4)
+
+scala> val (i,j) = IJ
+i: Int = 3
+j: Int = 4
+
+scala> val (I,J): IJ.type = IJ
+<console>:8: error: not found: value I
+       val (I,J): IJ.type = IJ
+            ^
+<console>:8: error: not found: value J
+       val (I,J): IJ.type = IJ
+--------------------------------------
+
+* What is a closure?
+* What distinguishes a class instance from a closure?
+* What is immutability?
+* List some advantages provided by immutability or single assignment?
+* What is structural sharing?
+* What does it mean that a language has 1st class functions?
+* What are high-order functions?
+* What is map?
+* What is filter?
+* What is referential transparency?
+* What is a side effect?
+* What is idempotence?
+* What is a pure function?
+* What is a trait?
+* How does a trait differ from an abstract class?
+* Explain linearization.
+* What is the self type?
+* What kind of OO relationship does the self type represent?
+* What are implicits?
+* What does any2stringadd do?
+* What is variance?
+* What is invariant?
+* What is covariant?
+* What is contravariant?
+
+[[other-resources]]
+Other Resources
+^^^^^^^^^^^^^^^
+
+* http://scalaconf.jp/en/program/index.html[ScalaConf Japan 2013]
+* http://blog.tmorris.net/posts/automated-unit-testing-your-java-using-scalacheck/[Unit Test Java code from Scala]
+* http://www.cs.helsinki.fi/u/wikla/OTS/Sisalto/examples/[Code Examples for Programming in Scala]
+* http://metagear.de/articles/scala-exercises/index.html[Solutions to the Exercises in the "Scala By Example" Manual]
+
+[[references]]
+References
+~~~~~~~~~~
+
+* http://www.artima.com/scalazine/articles/scalable-language.html[Scala: A Scalable Language]
+* http://locrianmode.blogspot.in/2011/07/scala-by-name-parameter.html[Scala by-name parameters]
+* http://daily-scala.blogspot.in/2010/03/assert-require-assume.html[Scala assert/requre/assume]
+* http://daily-scala.blogspot.in/2010/03/assert-require-assume.html[Ordered trait]
+* http://stackoverflow.com/questions/687071/what-is-the-root-package-in-scala[_root_ package]
+* http://www.scala-lang.org/api/current/index.html#scala.Nothing[Nothing in Scala]
+* http://sandrasi-sw.blogspot.in/2012/03/understanding-scalas-partially-applied.html[Partially applied functions]
+* http://www.scala-lang.org/old/node/135[Currying in Scala]
+* http://stackoverflow.com/questions/1888716/what-replaces-class-variables-in-scala[Static variables and Scala]
+* http://stackoverflow.com/questions/6569132/scala-class-variable-name-hides-method-parameter-name[Same method and variable name in Scala]
+* http://alvinalexander.com/scala/scala-csharp-style-package-syntax-examples-curly-braces[Package namespace in Scala and C Sharp]
+* http://stackoverflow.com/questions/12854941/why-can-a-scala-trait-extend-a-class[Trait extends class and vice-versa]
+* http://www.scala-lang.org/old/node/123[Sealed classes]
+* http://docs.scala-lang.org/overviews/core/futures.html[Futures and Promises]
+* http://stackoverflow.com/questions/2563929/how-would-one-do-dependency-injection-in-scala[StackOverflow: Dependency Injection in Scala]
+* http://jonasboner.com/2008/10/06/real-world-scala-dependency-injection-di/[Real-World Scala Dependency Injection]
+* http://making.meetup.com/post/64387936554/archery-an-immutable-r-tree-for-scala[Immutable R-Tree for Scala]
+* http://www.scalacommunity.com/[Scala Community]
+* https://thenewcircle.com/s/post/1528/data_mining_with_scala_at_identified_jan_prach_video[Data Mining with Scala]
+* https://thenewcircle.com/s/post/1529/scala_and_data_science_fun_with_folks_from_linkedin_ebay_vitaly_gordon_chris_severs_video[Scala & Data Science]
+* https://thenewcircle.com/s/post/1550/rxjava_reactive_extensions_in_scala_ben_christensen_matt_jacobs_video[Scala Rx talk]
+* http://twitter.github.io/scala_school/concurrency.html[Concurrency in Scala]
+* http://typelevel.org/blog/2013/07/07/generic-numeric-programming.html[An Intro to Generic Numeric Programming with Spire]
+* http://vkostyukov.ru/posts/combinatorial-algorithms-in-scala/[Combinatorial Algorithms in Scala]
+
