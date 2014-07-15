@@ -1,0 +1,38 @@
+
+== Closing Remarks
+
+=== Scala caveats
+
+* Scala Development tools are not so great yet.
+* Compilation is relatively slow
+
+=== sbt: Simple Build Tool
+
+http://www.scala-sbt.org/release/docs/Getting-Started/Setup.html[Setup SBT]
+
+-----------------------------------------------------------------------------------
+sbt "show compile:dependency-classpath"
+sbt "show compile:dependency-classpath" | grep -B1 'success' | head -1 > output.txt
+-----------------------------------------------------------------------------------
+
+http://stackoverflow.com/questions/23296064/sbt-print-dependency-classpath-for-use-in-an-environment-variable/23296445[Sbt
+print dependency classpath for use in an environment variable]
+
+------------------------------------------
+sbt "export  compile:dependency-classpath"
+sbt "export  compile:full-classpath"
+------------------------------------------
+
+=== Use cases of Scala
+
+* Scala is like a swiss-army-knife. But you only need a normal knife to
+cut an apple.
+* Remember, Scala is a JVM language ( uptil now )!
+* Applications which already run on the JVM
+* Enterprise Integration
+* Web Services
+* Quick prototyping
+* Concurrent applications for multi-core machines: RxScala, Akka ( based
+on Erlang's Actor Model )
+* Domain Specific Languages
+* And for fun!

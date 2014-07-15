@@ -1,0 +1,51 @@
+== Tips and Tricks
+
+=== Some Tips and Tricks
+
+Convert Java collections to Scala collections automatically
+
+-----------------------------------------
+import scala.collection.JavaConversions._
+-----------------------------------------
+
+Executing a Scala Script as a shell script
+
+First way ( script01.scala ) -- replace shell with scala interpreter
+
+----------------------
+#!/bin/sh
+exec scala "$0" "$@"
+!#
+println("hello world")
+----------------------
+
+Execution:
+
+--------------------------
+ $ sh ./script01.scala
+ hello world
+ $ chmod +x script01.scala
+ $ ./script01.scala
+ hello world
+--------------------------
+
+Second way ( script02.scala ) -- use env command to invoke scala
+interpreter
+
+----------------------
+#!/usr/bin/env scala
+!#
+println("hello world")
+----------------------
+
+Execution:
+
+-------------------------------------------------------------------------------------
+ $ sh ./script02.scala
+ ./script02.scala: 2: ./script02.scala: !#: not found
+ ./script02.scala: 3: ./script02.scala: Syntax error: word unexpected (expecting ")")
+ $ chmod +x script02.scala
+ $ ./script02.scala
+ hello world
+-------------------------------------------------------------------------------------
+

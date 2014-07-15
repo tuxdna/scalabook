@@ -1,0 +1,87 @@
+
+== Scala puzzles and questions
+
+Some pointers to interesting Scala questions:
+
+* http://scalapuzzlers.com/[Scala Puzzlers]
+* http://aperiodic.net/phil/scala/s-99/[Scala 99] problems
+* https://programmers.stackexchange.com/questions/58145/how-scala-developers-are-being-interviewed[How Scala Developers Are Being Interviewed]
+* Solve a problem using fold
+* Solve a problem using groupBy
+* Write some method for a List of Ints, have them genericize it to a Seq of arbitrary type.
+* Category Theory: How to define monad by natural transformation?
+* Name the default subclass in the Scala type hierarchy?
+
+Given you have a class C. What is `x == y` after `val x,y = new C` ?
+What is `j == k` after `val j@k = new C` ?
+
+----------------------
+scala> class C
+defined class C
+
+scala> val x,y = new C
+x: C = C@3e0f950
+y: C = C@270ff52d
+
+scala> val j@k = new C
+j: C = C@57797bd3
+k: C = C@57797bd3
+
+scala> x == y
+res0: Boolean = false
+
+scala> j == k
+res1: Boolean = true
+----------------------
+
+What are the results of the following?
+
+--------------------------------------
+val IJ = (3, 4)
+val (i,j) = IJ
+val (I,J): IJ.type = IJ
+
+
+scala> val IJ = (3, 4)
+IJ: (Int, Int) = (3,4)
+
+scala> val (i,j) = IJ
+i: Int = 3
+j: Int = 4
+
+scala> val (I,J): IJ.type = IJ
+<console>:8: error: not found: value I
+       val (I,J): IJ.type = IJ
+            ^
+<console>:8: error: not found: value J
+       val (I,J): IJ.type = IJ
+--------------------------------------
+
+
+Questions:
+
+* What is a closure?
+* What distinguishes a class instance from a closure?
+* What is immutability?
+* List some advantages provided by immutability or single assignment?
+* What is structural sharing?
+* What does it mean that a language has 1st class functions?
+* What are high-order functions?
+* What is map?
+* What is filter?
+* What is referential transparency?
+* What is a side effect?
+* What is idempotence?
+* What is a pure function?
+* What is a trait?
+* How does a trait differ from an abstract class?
+* Explain linearization.
+* What is the self type?
+* What kind of OO relationship does the self type represent?
+* What are implicits?
+* What does any2stringadd do?
+* What is variance?
+* What is invariant?
+* What is covariant?
+* What is contravariant?
+

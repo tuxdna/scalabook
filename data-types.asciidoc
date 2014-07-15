@@ -1,0 +1,21 @@
+== Data Types
+
+=== Basic Data Types
+
+Basic Data Types: ( all integers are signed two's complement )
+
+* Integers: `Byte` (8bit), `Short` (16bit), `Int` (32bit), `Long`
+(64bit)
+* `Char` (16 bit unicode character), `String` (squence of Chars)
+* Reals: `Float` (32bit), `Double` (64bit)
+* `Boolean`: either `true` or `false`
+
+=== Literals
+
+* Basic data types: `1`, `0.123`, `12L`, `'a'`, `"String"`
+* Symbol literal: `'identifier`
+
+=== Type Hierarchy
+
+image::images/classhierarchy.png[class hierarchy]
+

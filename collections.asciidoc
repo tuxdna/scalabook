@@ -1,0 +1,50 @@
+
+== Collections
+
+In addition to Java collections Scala provides:
+
+* `List` ( similar to java.util.LinkedList )
+* `Array` ( similar to Java array )
+* `Set` ( similar to java.util.Set )
+* `Map` ( similar to java.util.Map )
+* `Tuple` ( Java doesn't have a Tuple )
+
+=== Mutable / Immutable
+
+* Immutable collections ( scala.collection.immutable ) -- benefits: no
+locks to be acquired
+* Mutable collections ( scala.collection.mutable )
+
+=== List / Array
+
+image::images/list2.png[many elements]
+
+image::images/array.png[array elements]
+
+[source,scala]
+------------------------------------------------------
+scala> val lst = List(1,2,3,4,5,6,7,8,10)
+lst: List[Int] = List(1, 2, 3, 4, 5, 6, 7, 8, 10)
+
+scala> val arr = Array(1,2,3,4,5,6,7,8,9,10)
+arr: Array[Int] = Array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+------------------------------------------------------
+
+'''''
+
+=== Map / Set
+
+image::images/map.png[map]
+
+image::images/set.png[set]
+
+[source,scala]
+-----------------------------------------------------------------------------
+scala> val romans = Map("I" -> 1, "II" -> 2, "III" -> 3, "IV" -> 4, "V" -> 5)
+romans: scala.collection.immutable.Map[java.lang.String,Int] = Map(II -> 2, 
+    IV -> 4, I -> 1, V -> 5, III -> 3)
+
+scala> val r = Set("I", "II", "III", "IV", "V")
+r: scala.collection.immutable.Set[java.lang.String] = Set(II, IV, I, V, III)
+-----------------------------------------------------------------------------
+

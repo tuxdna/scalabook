@@ -1,0 +1,330 @@
+== Object Oriented Programming
+
+
+[[object-oriented-programming]]
+Object Oriented Programming
+
+* Traits
+* Objects
+* Classes
+* Companion Objects ( inside same source file )
+* Structural Types
+
+=== Traits
+
+Just like java has Interface, Scala has Traits, but with definitions.
+
+[source,scala]
+--------------------
+trait Animal {
+   def name: String
+   def lifespan: Int
+}
+--------------------
+
+Java:
+
+[source,java]
+-------------------------
+interface Animal {
+   public String name();
+   public int lifespan();
+}
+-------------------------
+
+Trait PartTime
+
+[source,scala]
+---------------------
+trait PartTime {
+  // trait definition
+}
+---------------------
+
+=== Objects
+
+Object is a singleton
+
+[source,scala]
+---------------------------------------------------------------------------
+object Animal {
+  // object body
+  def method1(p1: Int, p2: String): String = { /* some operations here */ }
+}
+---------------------------------------------------------------------------
+
+=== Classes
+
+
+[source,scala]
+---------------------------------------------------------------------------
+class Animal {
+  // class body
+  def method1(p1: Int, p2: String): String = { /* some operations here */ }
+}
+---------------------------------------------------------------------------
+
+[source,scala]
+---------------------------------------------
+class Employee(name: String, age: Int) {
+  override def toString = name + ", " + age
+}
+class Supervisor(name: String, age: Int
+  ) extends Employee(name, age) with PartTime
+  {
+  override def toString = name + ", " + age
+}
+---------------------------------------------
+
+When a class doesn't extend anyother class, scala.AnyRef class is implicitly used as the parent class.
+
+=== Structural Types
+
+
+
+=== Object Oriented Approach
+
+* Decompose the problem into entities and interactions among entities
+* Each entity and their interaction is represented using class/object
+* internal state is the member variables
+* interactions are the member functions
+
+[[objects]]
+Objects
+^^^^^^^
+
+[source,scala]
+-------------------------------------------
+object Employee {
+  override def toString = name + ", " + age
+}
+-------------------------------------------
+
+
+[[case-classes]]
+Case Classes
+++++++++++++
+
+How does a `class` differ from a `case class`?
+
+ * new keyword is not mamdatory to create instances of case classes
+ * constructor parameters get getter functions by default * `equals` and `hashCode` have a default
+implementation based on instance structure; also for `toString`
+ * can be used in pattern matching construct to capture values
+ * Generics
+
+
+=== OOP Example: Stroke Engines
+
+
+Stroke Engines
+
+image::images/StrokeEngine.png[StrokeEngine]
+
+
+Steam Engine
+
+image::images/SteamEngine.png[SteamEngine]
+
+
+Engines
+
+[source,java]
+-----------------------------------------------------------------
+package oop;
+import java.util.Arrays;
+public class MyEngines {
+    enum FuelLevel {Empty, Reserve, Half, Full}
+    interface Startable { public void start(); }
+    interface Stoppable { public void stop(); }
+    
+    abstract class Engine implements Startable, Stoppable { ... }
+    class TwoStrokeEngine extends Engine { ... }
+    class FourStrokeEngine extends Engine { ... }
+    
+    interface Make { ... }
+    class SteamEngine extends Engine implements Make { ... }
+    
+    public static void main() { ... }
+}
+    
+-----------------------------------------------------------------
+
+
+abstract class Engine
+
+[source,java]
+---------------------------------------------------------------------------------------------------
+abstract class Engine implements Startable, Stoppable {
+    int horsePower;
+    FuelLevel fuelLevel;
+    boolean running = false;
+    public Engine(int hp, boolean state, FuelLevel fl) {
+        this.horsePower = hp; this.running = state; this.fuelLevel = fl;
+    }
+    @Override
+    public void start() {
+        switch (fuelLevel) {
+        case Empty:
+            System.out.println("Cannot start without fuel.");
+        default:
+            if (!running) {
+                running = true;
+                System.out.println("Engine started");
+            } else System.out.println("Engine already started");
+        }
+    }
+    @Override
+    public void stop() {
+        if (running) {
+            running = false; System.out.println("Engine stopped");
+        }
+    }
+    @Override
+    public String toString() {
+        return String.format(
+         "Engine(running: %s, fuelLevel: %s, horsePower: %d BHP)", running, fuelLevel, horsePower);
+    }
+}
+---------------------------------------------------------------------------------------------------
+
+TwoStrokeEngine / FourStrokeEngine
+
+[source,java]
+------------------------------------------------------------------
+class TwoStrokeEngine extends Engine {
+    String model;
+    public TwoStrokeEngine(int hp, boolean state, FuelLevel fl) {
+        super(hp, state, fl);
+    }
+    @Override
+    public String toString() {
+        return "TwoStroke" + super.toString();
+    }
+}
+
+class FourStrokeEngine extends Engine {
+    String model;
+    public FourStrokeEngine(int hp, boolean state, FuelLevel fl) {
+        super(hp, state, fl);
+    }
+    @Override
+    public String toString() {
+        return "FourStroke" + super.toString();
+    }
+}
+------------------------------------------------------------------
+
+SteamEngine
+
+[source,java]
+-------------------------------------------------------------------------------
+interface Make {
+    public String make();
+}
+
+class SteamEngine extends Engine implements Make {
+    String model = "IndianRailways";
+    public SteamEngine(int hp, boolean state, FuelLevel fl) {
+        super(hp, state, fl);
+    }
+    public SteamEngine(int hp, boolean state, FuelLevel fl, String modelName) {
+        this(hp, state, fl);
+        this.model = modelName;
+    }
+    @Override
+    public String make() { return "SteamEngine - " + model; }
+    @Override
+    public String toString() {
+        return "Steam" + super.toString();
+    }
+}
+-------------------------------------------------------------------------------
+
+make some engines now...
+
+[source,java]
+---------------------------------------------------------------------------
+public static void main(String[] args) {
+
+    MyEngines me = new MyEngines();
+
+    FourStrokeEngine e1 = me.new FourStrokeEngine(40, false,
+            FuelLevel.Empty);
+    System.out.println(e1);
+    e1.start(); // won't start
+    e1.fuelLevel = FuelLevel.Full;
+    e1.start(); // will start: fuel-tank is now full
+    System.out.println(e1 + "\n");
+
+    TwoStrokeEngine e2 = me.new TwoStrokeEngine(26, false, FuelLevel.Full);
+    System.out.println(e2);
+    e2.start();
+    System.out.println(e2 + "\n");
+
+    SteamEngine e3 = me.new SteamEngine(1800, true, FuelLevel.Reserve);
+    System.out.println(e3);
+    System.out.println(e3.make() + "\n");
+
+    Engine[] myengines = { e1, e2, e3 };
+    System.out.println(Arrays.asList(myengines) + "\n");
+}
+---------------------------------------------------------------------------
+
+Scala version
+
+[source,scala]
+------------------------------------------------------------------------
+package oop
+object engine {
+  object FuelLevel extends Enumeration {
+    type FuelLevel = Value
+    val Empty, Reserve, Half, Full = Value 
+  }
+  import FuelLevel._
+
+  trait Stoppable {
+    var running: Boolean
+    var fuelLevel: FuelLevel
+    def stop = if (running) {running = false; println("Engine stopped")}
+  }
+
+  trait Startable {
+    var running: Boolean
+    var fuelLevel: FuelLevel
+    def start = fuelLevel match {
+        case FuelLevel.Empty => println("Cannot start without fuel.")
+        case _ if ! running => {
+          running = true; println("Engine started")
+        }
+        case _ => println("Engine already running")
+      }
+  }
+------------------------------------------------------------------------
+
+Scala version
+
+[source,scala]
+-------------------------------------------------------------
+  def main(args: Array[String]) {
+    val e1 = new FourStrokeEngine(40, false, FuelLevel.Empty)
+    println(e1)
+    e1.start // won't start
+    e1.fuelLevel = FuelLevel.Full
+    e1.start // will start: fuel-tank is now full
+    println(e1 + "\n")
+
+    val e2 = new TwoStrokeEngine(40, false, FuelLevel.Full)
+    println(e2)
+    e2.start
+    println(e2 + "\n")
+
+    val e3 = new SteamEngine(300, true, FuelLevel.Reserve)
+    println(e3)
+    println(e3.make + "\n")
+
+    val myengines = Array(e1, e2, e3)
+    println(myengines + "\n")
+  }
+}
+-------------------------------------------------------------

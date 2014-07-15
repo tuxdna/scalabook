@@ -1,0 +1,190 @@
+
+== Basics
+
+=== Absolute Scala basics
+
+**Hello Scala World**
+
+[source,scala]
+-----------------------------------
+object HelloWorld {
+  def main(args: Array[String]) = {
+    println("Hello Scala World!")
+  }
+}
+-----------------------------------
+
+**Compile and run Hello Scala World**
+
+-------------------------
+$ scalac helloworld.scala
+$ ls
+helloworld.scala
+HelloWorld.class
+HelloWorld$.class
+$ scala HelloWorld
+Hello Scala World!
+-------------------------
+
+=== Values and Variables
+
+An example in Ruby ( or maybe Python ) a dynamically typed language
+
+-------------------------------------
+counter = Counter.new
+counter = AtomicCounter.new
+counter = File.new # this works here!
+-------------------------------------
+
+Scala's static type system, avoids runtime overhead of dynamic types. The method dispatch is fast in a statically typed language.
+
+---------------------------------------------------------
+var counter = new Counter()
+counter = new AtomicCounter() // this has to be a Counter
+counter = new File() // this doesn't work in Scala
+---------------------------------------------------------
+
+
+=== Data Types
+
+**Almost everything is same as Java**
+
+Basic Data Types: ( all integers are signed two's complement )
+
+ * Integers: _Byte_ (8bit), _Short_ (16bit), _Int_ (32bit), _Long_ (64bit)
+ * _Char_ (16 bit unicode character), _String_ (squence of Chars)
+ * Reals: _Float_ (32bit), _Double_ (64bit) * _Boolean_: true / false
+
+Literals
+
+ * Basic data types: `1`, `0.123`, `12L`, `'a'`, `"String"`
+ * Symbol literal: `'identifier`
+
+=== Data Containers
+
+ * Array
+ * List
+ * Set
+ * Map
+ * **Tuple**
+
+=== Programming Abstraction Tools
+
+ * Class
+ * Object
+ * Scala App
+ * Package
+
+=== Expressions
+
+Every thing is an expression
+
+ * Basic expression: `1+2`
+ * An assignment is an expression
+ * A function is an expression
+
+=== Control Constructs
+
+Control Constructs in Scala
+
+ * if-else
+ * while
+ * do-while
+ * for
+ * match-case
+ * try-catch-finally
+
+
+=== Functions
+
+[source,scala]
+----------------------------------
+def factorial(n:Int): Int =
+  if(n<=0) 1 else n*factorial(n-1)
+----------------------------------
+
+=== Placeholder syntax
+
+=== Partially applied functions
+
+=== Closures
+
+=== Packages
+
+Example: `pacakge-example.scala`
+
+[source,scala]
+-------------------------------------------
+package in.tuxdna.scala
+class Employee(name: String, age: Int) {
+  override def toString = name + ", " + age
+}
+
+object Main extends App {
+  val emp1 = new Employee("Tom", 21)
+  println("Employee 1: "+emp1)
+}
+-------------------------------------------
+
+Output:
+
+------------------------------
+$ scalac pacakge-example.scala
+Employee 1: Tom, 21
+------------------------------
+
+
+=== Using Scala as a scripting language
+
+Example: `employee.scala`
+
+[source,scala]
+-------------------------------------------
+class Employee(name: String, age: Int) {
+  override def toString = name + ", " + age
+}
+-------------------------------------------
+
+
+[source,scala]
+----------------------------------
+val emp1 = new Employee("Tom", 21)
+println("Employee 1: "+emp1)
+----------------------------------
+
+Ouptput:
+
+----------------------
+$ scala employee.scala
+Employee 1: Tom, 21
+----------------------
+
+
+
+=== Features to be covered later
+
+There is more to Scala
+
+ * XML Processing
+ * Actors
+ * Case Classes
+ * Properties
+ * Extistential Types
+ * Implicits
+ * Lazy Evaluation
+ * Parser Combinations
+ * Monads - https://www.youtube.com/watch?v=Mw_Jnn_Y5iA[Scala Monads: Declutter Your Code With Monadic Design]
+ * Annotations
+ * Functional Programming
+ * Equational Reasoning: replace function with its value
+ * Functional Language: functions are fist class falues, encourages immutability
+ * Every statement has a return value ( and a type ) - `val a = 10`
+ * Compound expression has a return type as well
+ * Type inference
+ * Classes and Objects
+ * Class Inheritance
+ * Default constructor
+ * Predef object
+ * Functional Objects - those objects that do not have mutable state
+ * File processing
+

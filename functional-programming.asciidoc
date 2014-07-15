@@ -1,0 +1,213 @@
+== Functional Programming
+
+=== Lambda Calculus
+
+Lambda calculus: (closure, functions and values, higher order functions, recursion)
+
+image::images/lambda.png[lambda]
+
+* First-class and higher-order functions
+* Pure functions
+* Recursion
+* Strict versus non-strict evaluation
+* Type systems
+
+=== Defining functions
+
+image::images/function_composition.png[map/filter]
+
+-------------------------------
+!scala
+scala> def f(x: Double) = x * x
+f: (x: Double)Double
+
+scala> def g(y: Double) = 1 / y
+g: (y: Double)Double
+-------------------------------
+
+Functional Programming is guided by two main ideas:
+
+ * Functions are _fist-class values_
+ * Functions have _no side effects_ i.e. they can be replaced with their values
+
+=== First class function
+
+A function is treated same as any other variable. Which means we can
+store a function in a variable. According to Wikipedia:
+
+* such a language supports passing functions as arguments to other
+functions, returning them as the values from other functions, and
+assigning them to variables or storing them in data structures.
+* Some programming language theorists require support for anonymous
+functions as well.
+* In languages with first-class functions, the names of functions do not
+have any special status; they are treated like ordinary variables with a
+function type.
+
+Example:
+
+---------------------------------------------
+!scala
+scala> def add(a:Int, b:Int) = a + b
+add: (a: Int, b: Int)Int
+
+scala> val myfunc = (a: Int, b: Int) => a + b
+myfunc: (Int, Int) => Int = <function2>
+
+scala> val otherfunc = add _
+otherfunc: (Int, Int) => Int = <function2>
+---------------------------------------------
+
+'''''
+
+=== Higher order function
+
+In mathematics and computer science, a higher-order function (also
+functional form, functional or functor) is a function that does at least
+one of the following:
+
+* takes one or more functions as an input
+* outputs a function
+
+Example
+
+----------------------------------------------------------------
+!scala
+scala> def transform(fn: (Int) => Int, number: Int) = fn(number)
+transform: (transformer: Int => Int, number: Int)Int
+
+scala> val plus5 = transform( (x: Int) => x + 5, _: Int)
+plus5: Int => Int = <function1>
+
+scala> val into3 = transform( (x: Int) => x * 3, _: Int)
+into3: Int => Int = <function1>
+
+scala> plus5(6)
+res6: Int = 11
+
+scala> into3(6)
+res7: Int = 18
+----------------------------------------------------------------
+
+'''''
+
+=== Pure functions
+
+Pure functions have no side effects (memory or I/O). This means:
+
+* Compiler can discard or optimize out the return value if it was not
+used in an expression
+* The same result is returned for same parameters i.e. one-to-one
+correspondence or mapping. This can enable caching optimizations such as
+memoization.
+* Two independent functions can be evaluated out of order, or in
+parallel without worrying about side-effects.
+* Same strategy can be applied by the compiler if the entire program has
+many independent functions i.e. many parts of the whole program can run
+in parrallel, withoug baking-in any paralleism logic!
+
+Example:
+
+----------------------------------------------------------------------------
+!scala
+scala> def stat(num: List[Int]) = { (num.sum, num.sum/num.length.toDouble) }
+stat: (num: List[Int])(Int, Double)
+
+scala> val list1 = List(1,2,3,4,5); val list2 = List(6,7,8,9,10)
+list1: List[Int] = List(1, 2, 3, 4, 5)
+list2: List[Int] = List(6, 7, 8, 9, 10)
+
+scala> (stat(list1), stat(list2))
+res57: ((Int, Double), (Int, Double)) = ((15,3.0),(40,8.0))
+----------------------------------------------------------------------------
+
+=== Hallmarks of Functional Programming
+
+Hallmarks of Functional Programming
+
+* mapping
+* filtering
+* folding
+* reducing
+
+=== MapReduce
+
+map -> shuffle -> reduce
+image::images/mapreduce_mapshuffle.png[map-shuffle-reduce]
+
+[source,scala]
+----------------------------------------------------------
+scala> val result = (1 to 20).map(x => x*x).groupBy(_ % 5)
+    .par.map{ y => y._2.sum }.sum
+result: Int = 2870
+----------------------------------------------------------
+
+=== Recursion
+
+A function can call itself, over and over, until a base-case is reached.
+
+**Factorial**
+
+image::images/factorial-function.png[factorial]
+
+--------------------------------------
+!scala
+scala> def factorial(n: Int): Int = { 
+           if(n=0) 1 
+           else n*factorial(n-1)
+       }
+factorial: (n: Int)Int
+
+scala> factorial(5)
+res2: Int = 120
+--------------------------------------
+
+'''''
+
+=== Strict versus non-strict evaluation
+
+=== Lazy val
+
+------------------------------------------
+!scala
+scala> lazy val a = b + 1; lazy val b = 1;
+a: Int = <lazy>
+b: Int = <lazy>
+
+scala> a
+res36: Int = 2
+
+scala> b
+res37: Int = 1
+------------------------------------------
+
+=== Call by name
+
+----------------------------------------------------------------------------------------
+!scala
+scala> def withinTx(block: () => Unit) = { println("Begin TX"); block() ;
+                                            println("End TX") }
+withinTx: (block: () => Unit)Unit
+
+scala> withinTx { () => println("Performing operation") }
+Begin TX
+Performing operation
+End TX
+
+scala> def insideTx(block: => Unit) = { println("Begin TX"); block ; println("End TX") }
+insideTx: (block: => Unit)Unit
+
+scala> insideTx { println("Performing operation") }
+Begin TX
+Performing operation
+End TX
+----------------------------------------------------------------------------------------
+
+=== Type Systems
+
+* Typed functions
+* Type bounds ( view bounds, context bounds, manifest context bounds )
+* Variance: co-variant / contra-variant
+* Wildcards
+
+'''''

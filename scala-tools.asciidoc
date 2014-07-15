@@ -1,0 +1,59 @@
+== Scala Tools
+
+Following are thae Scala tools the you will need at some point or another while working with Scala: 
+
+* `scala` -- The Scala Interperter ( think of `java` )
+* `scalac` -- The Scala Compiler ( think of `javac` )
+* `sbt` -- Scala Build Tool ( think of Ant, Ivy, Maven etc. )
+* ScalaIDE -- Eclipse IDE with Scala plugins
+* Other IDE also support Scala ( IntelliJ, Netbeans etc. )
+
+**Scala REPL - Read Eval Print Loop**
+
+-------------------------------------------------------------------------
+$ scala
+Welcome to Scala version 2.9.1 (OpenJDK 64-Bit Server VM, Java 1.7.0_51).
+Type in expressions to have them evaluated.
+Type :help for more information.
+
+scala> println("Hello Scala World!")
+Hello Scala World!
+
+scala> 
+-------------------------------------------------------------------------
+
+
+=== Scala Setup
+
+
+Following software are required:
+
+ * JDK 6+
+ * Scala Compiler
+ * Text Editor ( or an IDE )
+ * Command Line Shell ( such as `bash` on Linux)
+
+[[setting-up-scala]]
+Setting up Scala
+^^^^^^^^^^^^^^^^
+
+Install the Scala Complier
+
+-----------------
+yum install scala
+-----------------
+
+Install your favourite Editor / IDE
+
+-----------------
+yum install emacs
+-----------------
+
+OR install Eclipse ( ScalaIDE )
+
+Scala compiler is
+
+ * `scalac` ( just like javac command )
+ * `scala` (just like java command )
+ * `fsc` ( fast scala compiler )
+

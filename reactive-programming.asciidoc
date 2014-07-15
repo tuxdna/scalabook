@@ -1,0 +1,68 @@
+== Reactive Programming
+
+**Reactive Programming in Scala**
+
+Four Effects:
+
+Synchronous(one): `T`/`Try[T]`
+
+Synchronous(many): `Iterable[T]`
+
+Asynchronous(one): `Future[T]`
+
+Asynchronous(many): `Observable[T]`
+
+Things to remember
+
+`Try[T]`: Handle happy path as well as sad path
+
+* `Success[T]` - happy path
+* `Failure(Throable)`: sad path
+
+Higher order functions on `Try[T]`:
+
+--------------------------------------------------------------
+def flatMap[S](f: T=>Try[S]): Try[S]
+def flatten[U <: Try[T]]: Try[U]
+def map[S](f: T=>S): Try[T]
+def filter(p: T=>Boolean): Try[T]
+def recoverWith(f: PartialFunction[Throwable, Try[T]]): Try[T]
+--------------------------------------------------------------
+
+`Future[T]`: Possibly asynchronous execution
+
+`Promise[T]`
+
+Partial examples of: `Future { block }`, `onComplete`, `recover`,
+`recoverWith`, `fallbackTo`, `async`, `await`
+
+-----------------------------------------------------------------------------------
+val f1 = Future { block1; 0 }
+val f2 = Future { block2; 1 }
+f1 recover { case x: Throwable => 2 }
+f1 recoverWith { case x: Throwable => 3 }
+f1 onComplete {
+  case Success(x) => x
+  case Failure(t) => println("caused by :"+t)
+}
+f2 onSuccess { v =>
+  println("Success with: "+v)
+}
+f2 onFailure { t =>
+  println("caused by: "+t)
+}
+val op1 = Future { operation1 }
+// val op2 = Future { nextOperation(x) }
+op1.flatMap( x => Future { nextOperation(x) } )
+
+val f3 = op1 fallbackTo {
+  async {
+    await { nextOperation(x) }
+  }
+} recover {
+  case e: Op1Error => println("op1 failed because: "+e)
+}
+
+val res = Await.result(f3, 5 seconds) // wait for at most 5 seconds for computation
+-----------------------------------------------------------------------------------
+

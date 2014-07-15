@@ -1,0 +1,43 @@
+== Introduction to Scala
+
+=== What is Scala?
+
+What is Scala?
+
+The name Scala stands for _"scalable language"_. The language is so named because it was designed to grow with the demands of its users.
+
+This is what makes Scala a "scalable language":
+
+* Scala is: compiled, statically typed, strictly typed, type inferred, fast, concise, expressive, pleasant to use, and high level
+* Scala is: Object Oriented, Functional and Imperative, runs on JVM, and it is compatible with Java
+
+Compare it to other languages such as Python, Ruby etc., which are interpretted, dynamically typed and so on.
+
+image::images/scala.png[image]
+
+
+=== Rise of the JVM Languages
+
+image::images/jvm-languages.png[JVM Languages]
+
+=== Does Scala make you a better (Java) programmer?
+
+Scala provides very concise Functional Programming constructs, that make your code look beautiful. At the same time it is fun to write and takes much less time than Java.
+
+Scala teaches you to think of functions as pure-functions and higher-objects. This means that functions are treated same as other variables and values, and also that functions have no side-effects. With these concepts in mind, any Java programmer can improve upon existing systems at various levels.
+
+=== What can you do with Scala today?
+
+* Write web applications: http://www.playframework.com/[Play] and http://liftweb.net/[Lift] web frameworks
+* Write code that scales to huge amounts of data: http://spark-project.org/[Spark Project] and https://github.com/twitter/scalding[Scalding]
+* Process huge number of concurrent tasks: http://akka.io/[Akka]
+* Natural Language Processing and Machine Learning: http://www.scalanlp.org/[ScalaNLP] and Apache Mahout
+* And anything you could do in Java, now more concisely :-)
+
+=== What's next?
+
+In this book we will cover:
+
+* Using Scala: Scala tools, Basic Data Types, Collections, if-else, loops, case-match, exception handling
+* Functional Programming in Scala: closure, functions and values, higher order functions, recursion
+* Object Oriented Programming in Scala: Traits, Objects, Classes, Companion Objects, Structural Types

@@ -1,0 +1,58 @@
+
+== Resources
+
+Where to learn more Scala
+
+=== Books
+
+* http://blog.typesafe.com/free-pdf-from-typesafe-scala-for-the-impatien-64715[Scala for the Impatient] (free)
+* http://ofps.oreilly.com/titles/9780596155957[Programming Scala] (free)
+* http://www.amazon.com/Programming-Scala-Comprehensive-Step-Step/dp/0981531644[Programming in Scala 2nd Ed.]
+* https://www.coursera.org/course/progfun[_Functional Programming Principles in Scala_] ( free online course )
+* http://www.scala-lang.org/node/198[Getting Started with Scala]
+
+=== References
+
+* http://manning.com/bjarnason/FPiS_meap_ch01.pdf[Introduction to Function Programming]
+* https://en.wikipedia.org/wiki/Functional_programming[Functional Programming] Wikipedia Article
+* http://www.codeproject.com/Articles/375166/Functional-programming-in-Csharp[Functional programming in C#]
+* link:www.scala-lang.org[Scala Lang site]
+* http://zeroturnaround.com/rebellabs/the-adventurous-developers-guide-to-jvm-languages-java-scala-groovy-fantom-clojure-ceylon-kotlin-xtend/[The Adventurous Developer's Guide to JVM Languages]
+* https://www.artima.com/pins1ed/[Programming in Scala 1st Edition]
+* http://www.jsphostingsolutions.com/JAVA-tutorial[Java Tutorial]
+* http://www.artima.com/scalazine/articles/scalable-language.html[Scala: A Scalable Language]
+* http://locrianmode.blogspot.in/2011/07/scala-by-name-parameter.html[Scala by-name parameters]
+* http://daily-scala.blogspot.in/2010/03/assert-require-assume.html[Scala assert/requre/assume]
+* http://daily-scala.blogspot.in/2010/03/assert-require-assume.html[Ordered trait]
+* http://stackoverflow.com/questions/687071/what-is-the-root-package-in-scala[_root_ package]
+* http://www.scala-lang.org/api/current/index.html#scala.Nothing[Nothing in Scala]
+* http://sandrasi-sw.blogspot.in/2012/03/understanding-scalas-partially-applied.html[Partially applied functions]
+* http://www.scala-lang.org/old/node/135[Currying in Scala]
+* http://stackoverflow.com/questions/1888716/what-replaces-class-variables-in-scala[Static variables and Scala]
+* http://stackoverflow.com/questions/6569132/scala-class-variable-name-hides-method-parameter-name[Same method and variable name in Scala]
+* http://alvinalexander.com/scala/scala-csharp-style-package-syntax-examples-curly-braces[Package namespace in Scala and C Sharp]
+* http://stackoverflow.com/questions/12854941/why-can-a-scala-trait-extend-a-class[Trait extends class and vice-versa]
+* http://www.scala-lang.org/old/node/123[Sealed classes]
+* http://docs.scala-lang.org/overviews/core/futures.html[Futures and Promises]
+* http://stackoverflow.com/questions/2563929/how-would-one-do-dependency-injection-in-scala[StackOverflow: Dependency Injection in Scala]
+* http://jonasboner.com/2008/10/06/real-world-scala-dependency-injection-di/[Real-World Scala Dependency Injection]
+* http://making.meetup.com/post/64387936554/archery-an-immutable-r-tree-for-scala[Immutable R-Tree for Scala]
+* http://www.scalacommunity.com/[Scala Community]
+* https://thenewcircle.com/s/post/1528/data_mining_with_scala_at_identified_jan_prach_video[Data Mining with Scala]
+* https://thenewcircle.com/s/post/1529/scala_and_data_science_fun_with_folks_from_linkedin_ebay_vitaly_gordon_chris_severs_video[Scala & Data Science]
+* https://thenewcircle.com/s/post/1550/rxjava_reactive_extensions_in_scala_ben_christensen_matt_jacobs_video[Scala Rx talk]
+* http://twitter.github.io/scala_school/concurrency.html[Concurrency in Scala]
+* http://typelevel.org/blog/2013/07/07/generic-numeric-programming.html[An Intro to Generic Numeric Programming with Spire]
+* http://vkostyukov.ru/posts/combinatorial-algorithms-in-scala/[Combinatorial Algorithms in Scala]
+
+=== Blogs
+
+=== Forums
+
+=== Other Resources
+
+* http://scalaconf.jp/en/program/index.html[ScalaConf Japan 2013]
+* http://blog.tmorris.net/posts/automated-unit-testing-your-java-using-scalacheck/[Unit Test Java code from Scala]
+* http://www.cs.helsinki.fi/u/wikla/OTS/Sisalto/examples/[Code Examples for Programming in Scala]
+* http://metagear.de/articles/scala-exercises/index.html[Solutions to the Exercises in the "Scala By Example" Manual]
+
