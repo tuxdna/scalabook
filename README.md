@@ -3,11 +3,12 @@ scalabook
 
 Book on Scala Programming Language
 
-To generate the book:
+Install Asciidoctor:
 
     $ sudo gem install asciidoctor
+    $ sudo gem install pygments.rb
 
-Create the presentation:
+Generate the book
 
     $ asciidoctor -a toc2 index.asciidoc
 

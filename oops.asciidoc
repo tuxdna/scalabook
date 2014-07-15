@@ -1,18 +1,18 @@
 == Object Oriented Programming
 
 
-[[object-oriented-programming]]
-Object Oriented Programming
+Scala provides these constructs for Object Oriented Programming
 
-* Traits
-* Objects
-* Classes
-* Companion Objects ( inside same source file )
-* Structural Types
+ * Traits
+ * Objects
+ * Classes
+ * Case Classes
+ * Companion Objects ( inside same source file )
+ * Structural Types
 
 === Traits
 
-Just like java has Interface, Scala has Traits, but with definitions.
+Just like Java has Interface, Scala has Traits,( interfaces with definitions).
 
 [source,scala]
 --------------------
@@ -32,7 +32,7 @@ interface Animal {
 }
 -------------------------
 
-Trait PartTime
+Trait `PartTime`
 
 [source,scala]
 ---------------------
@@ -52,6 +52,13 @@ object Animal {
   def method1(p1: Int, p2: String): String = { /* some operations here */ }
 }
 ---------------------------------------------------------------------------
+
+[source,scala]
+-------------------------------------------
+object Employee {
+  override def toString = name + ", " + age
+}
+-------------------------------------------
 
 === Classes
 
@@ -78,6 +85,18 @@ class Supervisor(name: String, age: Int
 
 When a class doesn't extend anyother class, scala.AnyRef class is implicitly used as the parent class.
 
+
+=== Case Classes
+
+How does a `class` differ from a `case class`?
+
+ * new keyword is not mamdatory to create instances of case classes
+ * constructor parameters get getter functions by default * `equals` and `hashCode` have a default
+implementation based on instance structure; also for `toString`
+ * can be used in pattern matching construct to capture values
+ * Generics
+
+
 === Structural Types
 
 
@@ -88,31 +107,6 @@ When a class doesn't extend anyother class, scala.AnyRef class is implicitly use
 * Each entity and their interaction is represented using class/object
 * internal state is the member variables
 * interactions are the member functions
-
-[[objects]]
-Objects
-^^^^^^^
-
-[source,scala]
--------------------------------------------
-object Employee {
-  override def toString = name + ", " + age
-}
--------------------------------------------
-
-
-[[case-classes]]
-Case Classes
-++++++++++++
-
-How does a `class` differ from a `case class`?
-
- * new keyword is not mamdatory to create instances of case classes
- * constructor parameters get getter functions by default * `equals` and `hashCode` have a default
-implementation based on instance structure; also for `toString`
- * can be used in pattern matching construct to capture values
- * Generics
-
 
 === OOP Example: Stroke Engines
 
