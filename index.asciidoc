@@ -4,11 +4,11 @@ image::images/smooth-spiral.png[logo]
 
 include::introduction.asciidoc[]
 
+include::scala-tools.asciidoc[]
+
 include::basics.asciidoc[]
 
 include::constructs.asciidoc[]
-
-include::scala-tools.asciidoc[]
 
 include::repl.asciidoc[]
 
@@ -16,9 +16,9 @@ include::data-types.asciidoc[]
 
 include::collections.asciidoc[]
 
-include::oops.asciidoc[]
-
 include::functional-programming.asciidoc[]
+
+include::oops.asciidoc[]
 
 include::puzzlesnquestions.asciidoc[]
 

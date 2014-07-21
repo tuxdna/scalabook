@@ -1,5 +1,57 @@
 == Functional Programming
 
+Functional Programming is guided by two main ideas:
+
+ * Functions are **fist-class values**
+ * Functions have **no side effects** i.e. they can be replaced with their values
+
+According to Wikipedia:
+
+ * A functional language supports **passing functions as arguments** to other functions, **returning functions as the values** from other functions, and **assigning functions to variables** or storing them in data structures.
+ * Some programming language theorists require support for **anonymous functions** as well.
+ * In languages with first-class functions, the **names of functions do not have any special status**; they are treated like ordinary variables with a function type.
+
+
+Function values definition in scala: `(arg1: Type1, arg2: Type2,...) => ReturnType`
+
+[source,scala]
+------
+scala> (x: Int) => x*x
+res0: Int => Int = <function1>
+
+scala> val myfun = (x: Int) => { x*x }
+res0: Int => Int = <function1>
+
+scala> val self = (x: Int) => x
+self: Int => Int = <function1>
+
+scala> val sum = (x: Int, y: Int) => x + y
+sum: (Int, Int) => Int = <function2>
+
+scala> self(10)
+res1: Int = 10
+
+scala> sum(2,3)
+res3: Int = 5
+
+scala> (x: Int) => Int
+res2: Int => Int.type = <function1>
+------
+
+=== Giving names to functions
+
+image::images/function_composition.png[Composing Functions]
+
+[source,scala]
+-------------------------------
+scala> def f(x: Double) = x * x
+f: (x: Double)Double
+
+scala> def g(y: Double) = 1 / y
+g: (y: Double)Double
+-------------------------------
+
+
 === Lambda Calculus
 
 Lambda calculus: (closure, functions and values, higher order functions, recursion)
@@ -9,45 +61,17 @@ image::images/lambda.png[lambda]
 * First-class and higher-order functions
 * Pure functions
 * Recursion
-* Strict versus non-strict evaluation
+* [line-through]#Strict versus non-strict evaluation#
 * Type systems
-
-=== Defining functions
-
-image::images/function_composition.png[map/filter]
-
--------------------------------
-!scala
-scala> def f(x: Double) = x * x
-f: (x: Double)Double
-
-scala> def g(y: Double) = 1 / y
-g: (y: Double)Double
--------------------------------
-
-Functional Programming is guided by two main ideas:
-
- * Functions are _fist-class values_
- * Functions have _no side effects_ i.e. they can be replaced with their values
 
 === First class function
 
-A function is treated same as any other variable. Which means we can
-store a function in a variable. According to Wikipedia:
-
-* such a language supports passing functions as arguments to other
-functions, returning them as the values from other functions, and
-assigning them to variables or storing them in data structures.
-* Some programming language theorists require support for anonymous
-functions as well.
-* In languages with first-class functions, the names of functions do not
-have any special status; they are treated like ordinary variables with a
-function type.
+A function is treated same as any other value. Which means we can store a **function as a value**, in some variable or a data-structure.
 
 Example:
 
+[source,scala]
 ---------------------------------------------
-!scala
 scala> def add(a:Int, b:Int) = a + b
 add: (a: Int, b: Int)Int
 
@@ -58,63 +82,121 @@ scala> val otherfunc = add _
 otherfunc: (Int, Int) => Int = <function2>
 ---------------------------------------------
 
-'''''
-
 === Higher order function
 
-In mathematics and computer science, a higher-order function (also
-functional form, functional or functor) is a function that does at least
-one of the following:
+In mathematics and computer science, a higher-order function (also functional form, functional or functor) is a function that does **at least one of the following**:
 
-* takes one or more functions as an input
-* outputs a function
+* takes one or more **functions as an input**
+* returns **function as output**
 
 Example
 
+[source,scala]
 ----------------------------------------------------------------
-!scala
-scala> def transform(fn: (Int) => Int, number: Int) = fn(number)
-transform: (transformer: Int => Int, number: Int)Int
-
-scala> val plus5 = transform( (x: Int) => x + 5, _: Int)
+scala> val plus5 = (x: Int) => x + 5
 plus5: Int => Int = <function1>
 
-scala> val into3 = transform( (x: Int) => x * 3, _: Int)
+scala> val into3 = (x: Int) => x * 3
 into3: Int => Int = <function1>
 
-scala> plus5(6)
-res6: Int = 11
+scala> def transform(number: Int, fn: (Int) => Int) = fn(number)
+transform: (number: Int, fn: Int => Int)Int
 
-scala> into3(6)
-res7: Int = 18
+scala> transform(10, plus5)
+res28: Int = 15
+
+scala> transform(10, into3)
+res29: Int = 30
+
+scala> val tx1 = transform(_: Int, into3)
+tx1: Int => Int = <function1>
+
+scala> tx1(10)
+res30: Int = 30
+
 ----------------------------------------------------------------
 
-'''''
+
+Decorator example:
+
+[source,scala]
+----------------------------------------------------------------
+
+scala> def decorate( decorator: (String) => String, x: String) = decorator(x)
+decorate: (decorator: String => String, x: String)String
+
+scala> val d1 = (x: String) => "[ " + x + " ]"
+d1: String => String = <function1>
+
+scala> val d2 = (x: String) => "(: " + x + " :)"
+d2: String => String = <function1>
+
+scala> decorate(d1, "SCALA")
+res31: String = [ SCALA ]
+
+scala> decorate( d2, decorate(d1, "SCALA"))
+res32: String = (: [ SCALA ] :)
+
+scala> val d3 = (x: String) => "I <3 " + x + " !"
+d3: String => String = <function1>
+
+scala> decorate(d2, decorate( d1, decorate(d3, "SCALA")))
+res33: String = (: [ I <3 SCALA ! ] :)
+
+scala> val d4 = (x: String) => s":¨·.·¨:\n`·.♥ ${x}"
+d4: String => String = <function1>
+
+scala> val d5 = (x: String) => s" (¯`v´¯) \n `·.¸.·´ \n ¸.·´¸.·¨) ¸.·¨) \n (¸.·´ (¸.·´ (¸.·¨¯`${x}"
+d5: String => String = <function1>
+
+scala> Function.chain(Seq(d3, d1,d2))("Scala")
+res53: String = (: [ I <3 Scala ! ] :)
+
+scala> val awesomeDecoration = Function.chain(Seq(d3, d5))
+awesomeDecoration: String => String = <function1>
+
+scala> println(awesomeDecoration("Scala"))
+ (¯`v´¯) 
+ `·.¸.·´ 
+ ¸.·´¸.·¨) ¸.·¨) 
+ (¸.·´ (¸.·´ (¸.·¨¯`I <3 Scala !
+
+
+----------------------------------------------------------------
+
+----------------------------------------------------------------
+scala> val awesomeDecoration = Function.chain(Seq(d3, d1,d2, d5))
+awesomeDecoration: String => String = <function1>
+
+scala> println(awesomeDecoration("Scala"))
+ (¯`v´¯) 
+ `·.¸.·´ 
+ ¸.·´¸.·¨) ¸.·¨) 
+ (¸.·´ (¸.·´ (¸.·¨¯`(: [ I <3 Scala ! ] :)
+
+----------------------------------------------------------------
+
 
 === Pure functions
 
 Pure functions have no side effects (memory or I/O). This means:
 
-* Compiler can discard or optimize out the return value if it was not
-used in an expression
-* The same result is returned for same parameters i.e. one-to-one
-correspondence or mapping. This can enable caching optimizations such as
-memoization.
-* Two independent functions can be evaluated out of order, or in
-parallel without worrying about side-effects.
-* Same strategy can be applied by the compiler if the entire program has
-many independent functions i.e. many parts of the whole program can run
-in parrallel, withoug baking-in any paralleism logic!
+ * Compiler can discard or optimize out the return value if it was not used in an expression
+ * The same result is returned for same parameters i.e. **one-to-one correspondence** or mapping. This can enable caching optimizations such as **memoization**.
+ * Two independent **functions can be evaluated out of order**, or in parallel without worrying about side-effects.
+ * Same strategy can be applied by the compiler if the entire program has many independent functions i.e. many parts of the **whole program can run in parrallel**, withoug baking-in any paralleism logic!
 
 Example:
 
+[source,scala]
 ----------------------------------------------------------------------------
-!scala
 scala> def stat(num: List[Int]) = { (num.sum, num.sum/num.length.toDouble) }
 stat: (num: List[Int])(Int, Double)
 
-scala> val list1 = List(1,2,3,4,5); val list2 = List(6,7,8,9,10)
+scala> val list1 = List(1,2,3,4,5)
 list1: List[Int] = List(1, 2, 3, 4, 5)
+
+scala> val list2 = List(6,7,8,9,10)
 list2: List[Int] = List(6, 7, 8, 9, 10)
 
 scala> (stat(list1), stat(list2))
@@ -129,6 +211,137 @@ Hallmarks of Functional Programming
 * filtering
 * folding
 * reducing
+
+Map, Filter, Reduce, Fold
+
+[source,scala]
+---------------------------------------------------------------------------
+val lst = List(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+lst.map(x => x * x)          //> res0: List[Int] = List(1, 4, 9, 16, 25, 36, 49, 64, 81, 100)
+lst.filter(x => x % 3 == 0)  //> res1: List[Int] = List(3, 6, 9)
+lst.reduce((x, y) => x + y)  //> res2: Int = 55
+lst.fold(0)((x, y) => x + y) //> res3: Int = 55
+---------------------------------------------------------------------------
+
+Map
+
+[source,scala]
+----------------------------------------------------------------------------------------------
+scala> (1 to 10) map { _ * 2 }
+res61: scala.collection.immutable.IndexedSeq[Int] = Vector(2, 4, 6, 8, 10, 12, 14, 16, 18, 20)
+----------------------------------------------------------------------------------------------
+
+Reduce
+
+[source,scala]
+------------------------------------
+scala> (1 to 10) reduceLeft{ _ + _ }
+res63: Int = 55
+------------------------------------
+
+Fold
+
+[source,scala]
+------------------------------------
+scala> (1 to 10).foldLeft(0)(_ + _)
+res68: Int = 55
+
+scala> (1 to 10).foldLeft(1)(_ * _)
+res69: Int = 3628800
+
+scala> (1 to 10).foldRight(1)(_ * _)
+res70: Int = 3628800
+------------------------------------
+
+Factorial Function variations
+
+=== Functions
+
+[source,scala]
+----------------------------------
+def factorial(n:Int): Int = if(n<=0) 1 else n*factorial(n-1)
+----------------------------------
+
+[source,scala]
+----------------------------------
+scala> def fact(n: Int) = (1 to n).foldLeft(0)( (a,b) => a * b)
+fact: (n: Int)Int
+
+scala> val factorial = fact(_)
+factorial: Int => Int = <function1>
+
+scala> val f1 = (n: Int) =>  (1 to n).foldLeft(0)( (a,b) => a * b) 
+f1: Int => Int = <function1>
+
+scala> factorial
+res2: Int => Int = <function1>
+
+scala> val f2 = (n: Int, m: Int) =>  (m to n).foldLeft(0)( (a,b) => a * b) 
+f2: (Int, Int) => Int = <function2>
+
+scala> def fact(n: Int) = (1 to n).foldRight(1)(_ * _)
+fact: (n: Int)Int
+
+scala> fact(10)
+res71: Int = 3628800
+
+scala> fact(3)
+res72: Int = 6
+
+scala> fact(20)
+res73: Int = -2102132736
+----------------------------------
+
+Sum
+
+[source,scala]
+-----------------------------------------------------------------------------------
+scala> (1 to 10).sum
+res74: Int = 55
+-----------------------------------------------------------------------------------
+
+Another example
+
+[source,scala]
+-----------------------------------------------------------------------------------
+scala> val wordList = List("scala", "akka", "play framework", "sbt", "typesafe")
+wordList: List[java.lang.String] = List(scala, akka, play framework, sbt, typesafe)
+
+scala> val tweet = "This is an example tweet talking about scala and sbt."
+tweet: java.lang.String = This is an example tweet talking about scala and sbt.
+
+scala> (wordList.foldLeft(false)( _ || tweet.contains(_) ))
+res75: Boolean = true
+
+scala> wordList.exists(tweet.contains)
+res76: Boolean = true
+-----------------------------------------------------------------------------------
+
+List partition
+
+[source,scala]
+-------------------------------------------------------------------------------
+scala> val (passed, failed) = List(49, 58, 76, 82, 88, 90) partition ( _ > 60 )
+passed: List[Int] = List(76, 82, 88, 90)
+failed: List[Int] = List(49, 58)
+-------------------------------------------------------------------------------
+
+Min-Max
+
+[source,scala]
+------------------------------------------------------
+scala> List(14, 35, -7, 46, 98).reduceLeft ( _ min _ )
+res79: Int = -7
+
+scala> List(14, 35, -7, 46, 98).reduceLeft ( _ max _ )
+res80: Int = 98
+
+scala> List(14, 35, -7, 46, 98).min
+res81: Int = -7
+
+scala> List(14, 35, -7, 46, 98).max
+res82: Int = 98
+------------------------------------------------------
 
 === MapReduce
 
@@ -151,43 +364,63 @@ A function can call itself, over and over, until a base-case is reached.
 
 image::images/factorial-function.png[factorial]
 
+[source,scala]
 --------------------------------------
-!scala
-scala> def factorial(n: Int): Int = { 
-           if(n=0) 1 
-           else n*factorial(n-1)
-       }
+scala> def factorial(n: Int): Int = { if( n == 0) 1 else n * factorial(n-1) }
 factorial: (n: Int)Int
 
 scala> factorial(5)
 res2: Int = 120
 --------------------------------------
 
-'''''
 
 === Strict versus non-strict evaluation
 
 === Lazy val
 
+[source,scala]
 ------------------------------------------
-!scala
-scala> lazy val a = b + 1; lazy val b = 1;
+
+
+scala> :paste
+// Entering paste mode (ctrl-D to finish)
+
+ lazy val a = {
+    println("Initializing a")
+    b + 1
+}; lazy val b = {
+    println("Initializing b")
+    1
+}
+
+// Exiting paste mode, now interpreting.
+
 a: Int = <lazy>
 b: Int = <lazy>
 
 scala> a
-res36: Int = 2
+Initializing a
+Initializing b
+res3: Int = 2
 
 scala> b
-res37: Int = 1
+res4: Int = 1
+
+scala> a
+res5: Int = 2
+
 ------------------------------------------
 
 === Call by name
 
+[source,scala]
 ----------------------------------------------------------------------------------------
-!scala
-scala> def withinTx(block: () => Unit) = { println("Begin TX"); block() ;
-                                            println("End TX") }
+scala> def withinTx(block: () => Unit) = {
+    println("Begin TX")
+    block()
+    println("End TX")
+}
+
 withinTx: (block: () => Unit)Unit
 
 scala> withinTx { () => println("Performing operation") }
@@ -211,4 +444,11 @@ End TX
 * Variance: co-variant / contra-variant
 * Wildcards
 
-'''''
+=== Placeholder syntax
+
+=== Partially applied functions
+
+=== Partial Functions
+
+=== Closures
+

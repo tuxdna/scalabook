@@ -1,6 +1,6 @@
 == Scala Tools
 
-Following are thae Scala tools the you will need at some point or another while working with Scala: 
+Following are the Scala tools the you will need at some point or another while working with Scala: 
 
 * `scala` -- The Scala Interperter ( think of `java` )
 * `scalac` -- The Scala Compiler ( think of `javac` )

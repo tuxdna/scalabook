@@ -30,21 +30,69 @@ scala> val arr = Array(1,2,3,4,5,6,7,8,9,10)
 arr: Array[Int] = Array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
 ------------------------------------------------------
 
-'''''
-
 === Map / Set
 
-image::images/map.png[map]
-
-image::images/set.png[set]
+Dictionary or Map
 
 [source,scala]
 -----------------------------------------------------------------------------
 scala> val romans = Map("I" -> 1, "II" -> 2, "III" -> 3, "IV" -> 4, "V" -> 5)
 romans: scala.collection.immutable.Map[java.lang.String,Int] = Map(II -> 2, 
     IV -> 4, I -> 1, V -> 5, III -> 3)
+-----------------------------------------------------------------------------
 
+image::images/map.png[map]
+
+image::images/dict.png[dictionary]
+
+[source,scala]
+-----------------------------------------------------------------------------
+scala> val radiation = Map('a' -> "alpha", 'o' -> "omega", 'g' -> "gamma")
+scala> radiation('g')
+res5: String = gamma
+
+-----------------------------------------------------------------------------
+
+Set Operations
+
+[source,scala]
+-----------------------------------------------------------------------------
 scala> val r = Set("I", "II", "III", "IV", "V")
 r: scala.collection.immutable.Set[java.lang.String] = Set(II, IV, I, V, III)
 -----------------------------------------------------------------------------
 
+image::images/set.png[set]
+
+image::images/venn-8.gif[set operations]
+
+[source,scala]
+-----------------------------------------------------------------------------
+scala> val T = Set("casey", "drew", "jade")
+T: scala.collection.immutable.Set[String] = Set(casey, drew, jade)
+
+scala> val V = Set("drew", "jade", "glen")
+V: scala.collection.immutable.Set[String] = Set(drew, jade, glen)
+
+scala> val S = Set("alex", "hunter", "casey", "drew")
+S: scala.collection.immutable.Set[String] = Set(alex, hunter, casey, drew)
+
+scala> val U = V union T union S union Set("blair", "erin", "francis", "era")
+U: scala.collection.immutable.Set[String] = Set(blair, francis, jade, hunter, glen, erin, alex, drew, era, casey)
+
+scala> val commonSet = S & T & V
+commonSet: scala.collection.immutable.Set[String] = Set(drew)
+
+-----------------------------------------------------------------------------
+
+=== Tuple
+
+[source,scala]
+-----------------------------------------------------------------------------
+val tuple1 = Tuple1(1)         //> tuple1: (Int,) = (1,)
+val tuple2 = ('a', 1)          //> tuple2 : (Char, Int) = (a,1)
+val tuple3 = ('a', 1, "name")  //> tuple3 : (Char, Int, String) = (a,1,name)
+tuple1._1 //> res0: Int = 1
+tuple2._2 //> res1: Int = 1
+tuple3._1 //> res2: Char = a
+tuple3._3 //> res3: String = name
+-----------------------------------------------------------------------------

@@ -1,42 +1,38 @@
 
 == Basic program constructs
 
+=== Control Constructs
 
-* if-else expression
-* loops: for comprehension
-* pattern matching
-* exception handling
+Control Constructs in Scala
 
-'''''
+ * if-else expression
+ * loops: for comprehension, while, do-while
+ * pattern matching: match-case
+ * exception handling: try-catch-finally
 
 === if-else
 
--------------------------------------------------------------------------
-!scala
+[source,scala]
+----
 scala> import java.util.Calendar
-import java.util.Calendar
-
 scala> val now = Calendar.getInstance()
-now: java.util.Calendar = java.util.GregorianCalendar[time=1392732373004,
-  areFieldsSet=true,areAllFieldsSet=true,lenient=true,
-  zone=sun.util.calendar.ZoneInfo[id="Asia/Kolkata",offset=19800000,
-  dstSavings=0,useDaylight=false,transitions=6,lastRule=null],
-  firstDayOfWeek=1,minimalDaysInFirstWeek=1,ERA=1,YEAR=2014,MONTH=1,
-  WEEK_OF_YEAR=8,WEEK_OF_MONTH=4,DAY_OF_MONTH=18,DAY_OF_YEAR=49,
-  DAY_OF_WEEK=3,DAY_OF_WEEK_IN_MONTH=3,AM_PM=1,HOUR=7,HOUR_OF_DAY=19,
-  MINUTE=36,SECOND=13,MILLISECOND=4,ZONE_OFFSET=19800000,DST_OFFSET=0]
-
 scala> val hour = now.get(Calendar.HOUR_OF_DAY)
 hour: Int = 19
 
 scala> println( if(hour < 12) "good afternoon" else "good morning")
 good morning
--------------------------------------------------------------------------
+
+scala> (1 to 4).map { i => "Happy Birthday " + (if (i == 3) "dear UNIX" else "to You") }.foreach { println }
+Happy Birthday to You
+Happy Birthday to You
+Happy Birthday dear UNIX
+Happy Birthday to You
+----
 
 === Loops
 
+[source,scala]
 --------------------------------------------------------------------------------
-!scala
 scala> val numbers = (1 to 10) toList
 numbers: List[Int] = List(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
 
@@ -50,12 +46,12 @@ scala> while(index < numbers.length) { print(numbers(index) + " "); index += 1 }
 1 2 3 4 5 6 7 8 9 10 
 --------------------------------------------------------------------------------
 
-'''''
-
 === Pattern matching
 
+Simple pattern matching
+
+[source,scala]
 ------------------------------------------------
-!scala
 scala> val dow = now.get(Calendar.DAY_OF_WEEK)
 dow: Int = 3
 
@@ -77,10 +73,32 @@ scala> dow match {
 res21: java.lang.String = Workday
 ------------------------------------------------
 
+
+Pattern matching with regexes:
+
+[source,scala]
+-------------------------------------------------------------------
+val text =
+     """|Hello Scala World
+        |Scala is a wonderful language
+        |OO + FP make Scala wonderful
+        |You should also try Scala""".stripMargin('|')
+
+val nextToScala = """.*\bScala (\w+).*""".r
+
+//> nextToScala: scala.util.matching.Regex = .*\bScala (\w+).*
+
+for (line <- text.split("\n")) yield line match {
+    case nextToScala(w) => w
+    case _ => ""
+}
+//> res0: Array[String] = Array(World, is, wonderful, "")
+-------------------------------------------------------------------
+
 === Exception handling
 
+[source,scala]
 -------------------------------------------------------------------
-!scala
 scala> var divisor = 0
 divisor: Int = 0
 

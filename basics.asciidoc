@@ -1,18 +1,51 @@
 
 == Basics
 
-=== Absolute Scala basics
+
+=== Read Eval Print Loop: REPL
+
+Just type `scala` on the Command Line shell:
+
+-----------------------------------
+$ scala
+Welcome to Scala version 2.10.3 (OpenJDK 64-Bit Server VM, Java 1.7.0_51).
+Type in expressions to have them evaluated.
+Type :help for more information.
+
+scala> 
+-----------------------------------
+
+Sample REPL session
+
+[source,scala]
+-----------------------------------
+scala> val (x,y) = (10,20)
+x: Int = 10
+y: Int = 20
+
+scala> println(x + y)
+30
+
+scala> 
+-----------------------------------
+
+=== Entry point for a Scala Program
 
 **Hello Scala World**
+
+
+Here we create a Scala Object named `HelloWorld` with a `main` method.
 
 [source,scala]
 -----------------------------------
 object HelloWorld {
-  def main(args: Array[String]) = {
+  def main(args: Array[String]): Unit = {
     println("Hello Scala World!")
   }
 }
 -----------------------------------
+
+Note the `main` method definition very carefully. It takes an `Array` of `String` values as the only argument. It returns `Unit` which is same as `void` in Java or C++, in other words, `main` method returns nothing.
 
 **Compile and run Hello Scala World**
 
@@ -26,22 +59,29 @@ $ scala HelloWorld
 Hello Scala World!
 -------------------------
 
+So, that is our first Scala program.
+
 === Values and Variables
 
-An example in Ruby ( or maybe Python ) a dynamically typed language
+Scala is a type-safe as well as statically-typed. To illustrate this, let us consider an example in Ruby ( or maybe Python ), which is a dynamically typed language:
 
+[source,ruby]
 -------------------------------------
-counter = Counter.new
-counter = AtomicCounter.new
-counter = File.new # this works here!
+$ irb
+>> counter = Counter.new
+>> counter = AtomicCounter.new
+>> counter = File.new # this works here!
 -------------------------------------
 
-Scala's static type system, avoids runtime overhead of dynamic types. The method dispatch is fast in a statically typed language.
+The above code works in Scala, but it won't work in Scala. Scala's static type system, avoids runtime overhead of dynamic types. Also, the method dispatch is fast in a statically typed language.
 
+[source,scala]
 ---------------------------------------------------------
-var counter = new Counter()
-counter = new AtomicCounter() // this has to be a Counter
-counter = new File() // this doesn't work in Scala
+var x = new Counter()
+x: Counter = some-counter-instance // x's type is inferred as Counter
+
+x = new AtomicCounter() // this will work because AtomicCounter is also a Counter
+x = new File() // this doesn't work in Scala, because File is not a Counter
 ---------------------------------------------------------
 
 
@@ -55,7 +95,7 @@ Basic Data Types: ( all integers are signed two's complement )
  * _Char_ (16 bit unicode character), _String_ (squence of Chars)
  * Reals: _Float_ (32bit), _Double_ (64bit) * _Boolean_: true / false
 
-Literals
+Literals:
 
  * Basic data types: `1`, `0.123`, `12L`, `'a'`, `"String"`
  * Symbol literal: `'identifier`
@@ -83,32 +123,6 @@ Every thing is an expression
  * An assignment is an expression
  * A function is an expression
 
-=== Control Constructs
-
-Control Constructs in Scala
-
- * if-else
- * while
- * do-while
- * for
- * match-case
- * try-catch-finally
-
-
-=== Functions
-
-[source,scala]
-----------------------------------
-def factorial(n:Int): Int =
-  if(n<=0) 1 else n*factorial(n-1)
-----------------------------------
-
-=== Placeholder syntax
-
-=== Partially applied functions
-
-=== Closures
-
 === Packages
 
 Example: `pacakge-example.scala`
@@ -130,26 +144,23 @@ Output:
 
 ------------------------------
 $ scalac pacakge-example.scala
+$ scala in.tuxdna.scala.Main
 Employee 1: Tom, 21
 ------------------------------
-
 
 === Using Scala as a scripting language
 
 Example: `employee.scala`
 
 [source,scala]
--------------------------------------------
+----------------------------------
 class Employee(name: String, age: Int) {
   override def toString = name + ", " + age
 }
--------------------------------------------
 
-
-[source,scala]
-----------------------------------
 val emp1 = new Employee("Tom", 21)
 println("Employee 1: "+emp1)
+
 ----------------------------------
 
 Ouptput:
@@ -159,32 +170,4 @@ $ scala employee.scala
 Employee 1: Tom, 21
 ----------------------
 
-
-
-=== Features to be covered later
-
-There is more to Scala
-
- * XML Processing
- * Actors
- * Case Classes
- * Properties
- * Extistential Types
- * Implicits
- * Lazy Evaluation
- * Parser Combinations
- * Monads - https://www.youtube.com/watch?v=Mw_Jnn_Y5iA[Scala Monads: Declutter Your Code With Monadic Design]
- * Annotations
- * Functional Programming
- * Equational Reasoning: replace function with its value
- * Functional Language: functions are fist class falues, encourages immutability
- * Every statement has a return value ( and a type ) - `val a = 10`
- * Compound expression has a return type as well
- * Type inference
- * Classes and Objects
- * Class Inheritance
- * Default constructor
- * Predef object
- * Functional Objects - those objects that do not have mutable state
- * File processing
 

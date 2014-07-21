@@ -1,6 +1,68 @@
 
 == Closing Remarks
 
+XML
+
+[source,scala]
+-----------------------------------------------------------------------------------------------------
+scala> val results = xml.XML.load("https://github.com/blog.atom")
+results: scala.xml.Elem = 
+<feed xml:lang="en-US" xmlns:media="http://search.yahoo.com/mrss/" xmlns="http://www.w3.org/2005/Atom">
+  <id>tag:github.com,2008:/blog</id>
+  <link href="https://github.com/blog" type="text/html" rel="alternate"></link>
+  <link href="https://github.com/blog.atom" type="application/atom+xml" rel="self"></link>
+  <title>The GitHub Blog</title>
+  <updated>2013-05-31T14:32:29-07:00</updated>
+  <entry>
+    <id>tag:github.com,2008:Post/1518</id>
+    <published>2013-05-31T14:32:29-07:00</published>
+    <updated>2013-05-31T14:32:29-07:00</updated>
+    <link href="https://github.com/blog/1518-drinkup-in-atlanta" type="text/html" rel="alternate"></link>
+    <title>Drinkup in Atlanta</title>
+    <content type="html">&lt;p&gt;&lt;a href=&quot;https://github.com/wfarr&quo...
+-----------------------------------------------------------------------------------------------------
+
+File IO
+
+[source,scala]
+-----------------------------------------------------------------------------------------------------
+scala> val fileText = io.Source.fromFile("/proc/cpuinfo").mkString
+fileText: String = 
+"processor  : 0
+vendor_id   : GenuineIntel
+..."
+
+scala> val fileText = io.Source.fromFile("/proc/cpuinfo").getLines.toList
+fileText: List[String] = List(processor : 0, vendor_id  : GenuineIntel, cpu family  : 6, model      : 42, model name    : Intel(R) Core(TM) i5-2400 CPU @ 3.10GHz, stepping : 7, microcode  : 0x1b, cpu MHz     : 3101.000, cache size  : 6144 KB, physical id  : 0, siblings   : 4, core id        : 0, cpu cores  : 4, apicid     : 0, initial apicid : 0, fpu        : yes, fpu_exception    : yes, cpuid level  : 13, wp        : yes, flags        : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx lahf_lm ida arat epb xsaveopt pln pts dthe...
+-----------------------------------------------------------------------------------------------------
+
+=== Features to be covered later
+
+There is more to Scala
+
+ * XML Processing
+ * Actors
+ * Case Classes
+ * Properties
+ * Extistential Types
+ * Implicits
+ * Lazy Evaluation
+ * Parser Combinations
+ * Monads - https://www.youtube.com/watch?v=Mw_Jnn_Y5iA[Scala Monads: Declutter Your Code With Monadic Design]
+ * Annotations
+ * Functional Programming
+ * Equational Reasoning: replace function with its value
+ * Functional Language: functions are fist class falues, encourages immutability
+ * Every statement has a return value ( and a type ) - `val a = 10`
+ * Compound expression has a return type as well
+ * Type inference
+ * Classes and Objects
+ * Class Inheritance
+ * Default constructor
+ * Predef object
+ * Functional Objects - those objects that do not have mutable state
+ * File processing
+
 === Scala caveats
 
 * Scala Development tools are not so great yet.

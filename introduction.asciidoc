@@ -41,3 +41,4 @@ In this book we will cover:
 * Using Scala: Scala tools, Basic Data Types, Collections, if-else, loops, case-match, exception handling
 * Functional Programming in Scala: closure, functions and values, higher order functions, recursion
 * Object Oriented Programming in Scala: Traits, Objects, Classes, Companion Objects, Structural Types
+
