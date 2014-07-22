@@ -217,11 +217,26 @@ Map, Filter, Reduce, Fold
 [source,scala]
 ---------------------------------------------------------------------------
 val lst = List(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+
 lst.map(x => x * x)          //> res0: List[Int] = List(1, 4, 9, 16, 25, 36, 49, 64, 81, 100)
+
 lst.filter(x => x % 3 == 0)  //> res1: List[Int] = List(3, 6, 9)
+
 lst.reduce((x, y) => x + y)  //> res2: Int = 55
+
 lst.fold(0)((x, y) => x + y) //> res3: Int = 55
+
+lst.reduce((x, y) => x * y)       //> res4: Int = 3628800
+lst.reduceLeft((x, y) => x * y)   //> res6: Int = 3628800
+lst.reduceRight((x, y) => x * y)  //> res8: Int = 3628800
+
+lst.fold(1)((x, y) => x * y)      //> res5: Int = 3628800
+lst.foldLeft(1)((x, y) => x * y)  //> res7: Int = 3628800
+lst.foldRight(1)((x, y) => x * y) //> res9: Int = 3628800
+
 ---------------------------------------------------------------------------
+
+https://stackoverflow.com/questions/7764197/difference-between-foldleft-and-reduceleft-in-scala[What is difference between fold and reduce?]
 
 Map
 
@@ -254,8 +269,6 @@ res70: Int = 3628800
 ------------------------------------
 
 Factorial Function variations
-
-=== Functions
 
 [source,scala]
 ----------------------------------
@@ -291,14 +304,6 @@ res72: Int = 6
 scala> fact(20)
 res73: Int = -2102132736
 ----------------------------------
-
-Sum
-
-[source,scala]
------------------------------------------------------------------------------------
-scala> (1 to 10).sum
-res74: Int = 55
------------------------------------------------------------------------------------
 
 Another example
 
@@ -351,8 +356,11 @@ image::images/mapreduce_mapshuffle.png[map-shuffle-reduce]
 
 [source,scala]
 ----------------------------------------------------------
-scala> val result = (1 to 20).map(x => x*x).groupBy(_ % 5)
-    .par.map{ y => y._2.sum }.sum
+scala> val result = (1 to 20).
+             map(x => x*x).
+             groupBy(_ % 5).par.
+             map{ y => y._2.sum }.sum
+
 result: Int = 2870
 ----------------------------------------------------------
 
@@ -413,6 +421,10 @@ res5: Int = 2
 
 === Call by name
 
+Call by name is a mechanism in Scala, where we can tell that a function argument is evaluated everytime it referred to in the function body.
+
+Building call-by-name.
+
 [source,scala]
 ----------------------------------------------------------------------------------------
 scala> def withinTx(block: () => Unit) = {
@@ -423,11 +435,23 @@ scala> def withinTx(block: () => Unit) = {
 
 withinTx: (block: () => Unit)Unit
 
+----------------------------------------------------------------------------------------
+
+
+First example:
+
+[source,scala]
+----------------------------------------------------------------------------------------
 scala> withinTx { () => println("Performing operation") }
 Begin TX
 Performing operation
 End TX
+----------------------------------------------------------------------------------------
 
+We can also avoid passing `()` in each call, and this becomes the call-by-name syntax.
+
+[source,scala]
+----------------------------------------------------------------------------------------
 scala> def insideTx(block: => Unit) = { println("Begin TX"); block ; println("End TX") }
 insideTx: (block: => Unit)Unit
 
@@ -436,6 +460,10 @@ Begin TX
 Performing operation
 End TX
 ----------------------------------------------------------------------------------------
+
+Basically now we define `insideTx` with a parameter `block` which is a function that **takes no parameters**, and returns `Unit`. Here, `block` is simply a first class function, that is being passed into `insideTx`, whose definition in this case being `{ println("Performing operation") }`.
+
+https://stackoverflow.com/questions/13337338/call-by-name-vs-call-by-value-in-scala-clarification-needed[Call by name versus call by value]
 
 === Type Systems
 
@@ -446,9 +474,17 @@ End TX
 
 === Placeholder syntax
 
+https://stackoverflow.com/questions/8260367/scala-placeholder-syntax[Scala Placeholder Syntax]
+
 === Partially applied functions
+
+https://stackoverflow.com/questions/14309501/scala-currying-vs-partially-applied-functions[Currying vs Partially Applied Functions]
 
 === Partial Functions
 
+https://stackoverflow.com/questions/8650549/using-partial-functions-in-scala-how-does-it-work[Using partial functions in Scala - how does it work?]
+
 === Closures
+
+http://www.artima.com/pins1ed/functions-and-closures.html[Functions and Closures]
 
