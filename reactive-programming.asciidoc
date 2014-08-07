@@ -1,5 +1,17 @@
 == Reactive Programming
 
+http://reactivemanifesto.org/
+
+Reactive Manifesto defines a common vocabulary for basic challenges for a modern system that:
+
+ * it must react to its users (responsiveness)
+ * it must react to failure and stay available (resilience)
+ * it must react to variable load conditions (scalability)
+ * it must react to events (event orientation)
+
+Pre-requisites: `map`, `flatMap`, generic definition `[T]`
+
+
 **Reactive Programming in Scala**
 
 Four Effects on operations:
@@ -21,7 +33,7 @@ Four Effects on operations:
 `Try[T]`: Handle happy path as well as sad path
 
  * `Success[T]` - happy path
- * `Failure(Throable)`: sad path
+ * `Failure(Throwable)`: sad path
 
 **Higher order functions on `Try[T]`**
 
@@ -78,3 +90,9 @@ val f3 = op1 fallbackTo {
 val res = Await.result(f3, 5 seconds) // wait for at most 5 seconds for computation
 -----------------------------------------------------------------------------------
 
+
+Read more at:
+
+ * http://docs.scala-lang.org/overviews/core/futures.html
+
+ * http://alvinalexander.com/scala/future-example-scala-cookbook-oncomplete-callback
