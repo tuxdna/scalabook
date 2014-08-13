@@ -90,9 +90,68 @@ val f3 = op1 fallbackTo {
 val res = Await.result(f3, 5 seconds) // wait for at most 5 seconds for computation
 -----------------------------------------------------------------------------------
 
+== Observable
+
+An **Observable** is the entity which will be emit data. An **Observer** is the entity which will receive notificaions whenever an **Observable** emits data. **Observer** is connected to an **Observable** via a **Subscription**. Observable can be a Hot or Cold. **Hot Observable** starts emitting values as soon as it is created and it is shared by all the subscriptions. **Cold Observable** emits values only when an Observer subscribes to it. Each subscriber has its own copy of observable.
+
+An **Observable** is also referred to as **Subject**.
+
+ * AsyncSubject - caches final value
+ * PublishSubject - current value
+ * ReplaySubject - caches all values
+ * BehaviourSubject - caches latest value
+
+
+Blocking observables
+
+[source,scala]
+-----------------------------------------------------------------------------------
+Observable.toBlockingObservable()
+BlockingObservable.from()
+-----------------------------------------------------------------------------------
+
+
+Why to use Observable?
+
+ * Future is cumbursome when dealing with errors.
+ * Future is not suitable for bulk operations or a stream of data.
+ * Observable is more suitable for bulk operations.
+
+How do we handle backpressure with Observable? Read https://github.com/Netflix/RxJava/wiki/Backpressure[ how to do it.]
+
+A subscriber can also be `unsubscribe()` d. This doesn't affect the emmision of data from Observable, rather it only disconnects the subscription.
+
+[source,scala]
+-----------------------------------------------------------------------------------
+val obs = Observable.from(sequence)
+val sequentialOutput = obs.concat
+val streamingOutput = obs.faltten
+
+streamingOutput.subscribe(x => println(x))
+
+blocking: Seq[T]) => Seq[T]
+
+async: Seq[T] => Future[Seq[T]]
+
+nonBlocking: Seq[T] => Future[Seq[T]]
+
+streaming: Seq[T] => Observable[T]
+
+
+-----------------------------------------------------------------------------------
+
+
+Algebra of subscription.
+
+ * CompositeSubscription
+ * MultiAsignment
+
+
+
 
 Read more at:
 
  * http://docs.scala-lang.org/overviews/core/futures.html
-
+ * http://tersesystems.com/2012/12/27/error-handling-in-scala/
  * http://alvinalexander.com/scala/future-example-scala-cookbook-oncomplete-callback
+ * https://github.com/Netflix/RxJava/wiki/Observable

@@ -203,6 +203,8 @@ scala> (stat(list1), stat(list2))
 res57: ((Int, Double), (Int, Double)) = ((15,3.0),(40,8.0))
 ----------------------------------------------------------------------------
 
+**Equational Reasoning**: replace function with its value
+
 === Hallmarks of Functional Programming
 
 Hallmarks of Functional Programming
