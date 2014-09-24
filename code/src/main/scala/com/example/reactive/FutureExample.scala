@@ -37,7 +37,7 @@ object FutureExample {
     }
 
     sleep(2000)
-    // System.exit(0)
+//    System.exit(0)
 
     num1.onFailure {
       case t => println("Failure", t)
@@ -49,7 +49,7 @@ object FutureExample {
     // println(num2)
 
     num2.recover {
-      case _: Throwable =>
+      case _: Throwable => 0
     }
 
     // Await.result(num2, 1000 millis)
@@ -58,6 +58,11 @@ object FutureExample {
 
     val num3 = fetchNumberInRange(0, 10, 0.01)
     num3.onComplete {
+      case Success(x) => sum += x
+      case Failure(t) => t
+    }
+
+    num2.andThen {
       case Success(x) => sum += x
       case Failure(t) => t
     }
@@ -81,14 +86,20 @@ object FutureExample {
       }
     }
 
-    allFutures.foreach { x => }
+    val allf2 = lower.zip(upper).map { lowup =>
+      fetchNumberInRange(lowup._1, lowup._2, 0.1)
+    }
 
-    f.onComplete {
-      case Success(x) => println("Sequence sum = " + x)
+    val f2 = allf2.foldLeft(Future { 0 }) {
+      case (future, n) => for(x <- future; y <- n) yield x + y
+    }
+
+    f2.onComplete {
+      case Success(x) => println("Sequence sum2 = " + x)
       case Failure(t) => println(t)
     }
 
-    Await.result(num3, 5000 millis)
+    Await.result(f2, 10000 millis)
     println("sum = " + sum)
   }
 }

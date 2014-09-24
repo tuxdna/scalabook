@@ -155,3 +155,5 @@ Read more at:
  * http://tersesystems.com/2012/12/27/error-handling-in-scala/
  * http://alvinalexander.com/scala/future-example-scala-cookbook-oncomplete-callback
  * https://github.com/Netflix/RxJava/wiki/Observable
+ * http://channel9.msdn.com/Events/TechEd/Europe/2012/DEV413
+

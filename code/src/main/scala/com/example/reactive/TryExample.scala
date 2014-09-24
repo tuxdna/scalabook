@@ -46,15 +46,20 @@ object TryExample {
     val n3 = n2.recoverWith {
       case x: OutOfRangeException => Success(0)
     }
+    
+    val mx = n3.map( x => x * x)
 
     println(s"Recovery ${n3}")
 
     // simplify failures!
     val rv = for (
-      x <- Try(inputRangeOneToFive);
+      x <- Try(inputRangeOneToFive).recover{
+        case e: Exception => 3
+      };
       y <- Try(inputRangeOneToFive)
     ) yield x + y
 
+    
     println(s"Result is : ${rv}")
   }
 }

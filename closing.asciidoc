@@ -34,15 +34,41 @@ vendor_id   : GenuineIntel
 
 scala> val fileText = io.Source.fromFile("/proc/cpuinfo").getLines.toList
 fileText: List[String] = List(processor : 0, vendor_id  : GenuineIntel, cpu family  : 6, model      : 42, model name    : Intel(R) Core(TM) i5-2400 CPU @ 3.10GHz, stepping : 7, microcode  : 0x1b, cpu MHz     : 3101.000, cache size  : 6144 KB, physical id  : 0, siblings   : 4, core id        : 0, cpu cores  : 4, apicid     : 0, initial apicid : 0, fpu        : yes, fpu_exception    : yes, cpuid level  : 13, wp        : yes, flags        : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx lahf_lm ida arat epb xsaveopt pln pts dthe...
+
+// Observables
+
+  def timedOut(totalSec: Long): Observable[T] = {
+    obs.buffer(totalSec seconds).first.flatMap { seq =>
+      Observable { o =>
+        seq.foreach(o.onNext(_))
+        o.onCompleted()
+        Subscription { }
+      }
+    }
+  }
+
+  def timedOut(totalSec: Long): Observable[T] = {
+    obs.window(totalSec seconds).first.flatten
+  }
+
+  def timedOut(totalSec: Long): Observable[T] = Observable {
+    obs.buffer(totalSec seconds).take(1).toBlockingObservable.single:_*
+  }
+
+
 -----------------------------------------------------------------------------------------------------
 
-=== Features to be covered later
+=== Work in progress
 
 There is more to Scala
 
  * XML Processing
  * Actors
+ * Type inference
+ * Classes and Objects
  * Case Classes
+ * Class Inheritance
+ * Default constructor
  * Properties
  * Extistential Types
  * Implicits
@@ -50,15 +76,6 @@ There is more to Scala
  * Parser Combinations
  * Monads - https://www.youtube.com/watch?v=Mw_Jnn_Y5iA[Scala Monads: Declutter Your Code With Monadic Design]
  * Annotations
- * Functional Programming
- * Equational Reasoning: replace function with its value
- * Functional Language: functions are fist class falues, encourages immutability
- * Every statement has a return value ( and a type ) - `val a = 10`
- * Compound expression has a return type as well
- * Type inference
- * Classes and Objects
- * Class Inheritance
- * Default constructor
  * Predef object
  * Functional Objects - those objects that do not have mutable state
  * File processing

@@ -9,7 +9,7 @@ object MainFirstObservable {
     val bufs: Observable[Seq[Long]] = evens.buffer(2, 1)
     val s = bufs.subscribe(b => println(b))
     
-    val xs = Observable(1 to 10)
+    val xs = Observable.from(1 to 10)
     val ys = xs.map(x => x + 1)
     ys.subscribe(x => println("HI: "+x))
     

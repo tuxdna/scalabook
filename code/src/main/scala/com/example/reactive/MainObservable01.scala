@@ -6,7 +6,7 @@ import rx.lang.scala.subjects._
 
 object MainObservable01 {
   def main(args: Array[String]) {
-    val target = Observable(1, 2, 3, 4)
+    val target = Observable.from(List(1, 2, 3, 4))
 
     val subscription1 = target subscribe (println(_))
     val subscription2 = target subscribe (println(_))
@@ -20,7 +20,7 @@ object MainObservable01 {
 
     println("Correct way")
     val subject2 = ReplaySubject[Int]()
-    val initial2 = Observable(1, 2, 3, 4)
+    val initial2 = Observable.from(List(1, 2, 3, 4))
     val target2 = initial2 ++ subject2 // concat the observables
 
     val subs1 = target2 subscribe (println(_))
